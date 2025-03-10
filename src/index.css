@@ -1,0 +1,35 @@
+@import "tailwindcss";
+@layer theme, base, components, utilities;
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.cdnfonts.com/css/sf-pro-display");
+
+@theme {
+  /* Light Theme */
+  --color-main: #627ffe;
+  --color-main-light: #eff3fc;
+  --color-secondary: #7bc394;
+  /* Dark Theme */
+  --color-dark: #121826;
+}
+
+body {
+  font-family: "SF Pro Display", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  color: "#121826";
+}
+
+p {
+  font-family: "Inter", sans-serif;
+}
+
+.contain-block {
+  width: 90%;
+}

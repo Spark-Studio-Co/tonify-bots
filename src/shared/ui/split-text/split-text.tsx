@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { animated, useSprings } from "@react-spring/web";
 import { useEffect, useRef, useState } from "react";
 

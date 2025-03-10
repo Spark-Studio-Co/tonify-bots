@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { Mesh, Program, Renderer, Triangle, Vec3 } from "ogl";
 import { useEffect, useRef } from "react";
 

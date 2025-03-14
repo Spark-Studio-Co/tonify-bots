@@ -5,7 +5,7 @@ import { cn } from "../../lib/utils";
 
 export const buttonVariants = {
   primary:
-    "bg-main text-white rounded-full min-w-[260px] py-3 flex items-center justify-center gap-2 font-bold shadow-[0_0_15px_3px_rgba(0,0,255,0.6)]", // Permanent blue glow
+    "bg-main text-white rounded-full min-w-[260px] py-3 flex items-center justify-center gap-2 font-bold shadow-[0_0_15px_3px_rgba(0,0,255,0.3)]", // Permanent blue glow
   secondary: "text-secondary", // Permanent blue glow
 } as const;
 
@@ -24,7 +24,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         className={cn(
-          "rounded-md font-medium transition-colors focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none",
+          "rounded-md font-medium transition-colors  disabled:opacity-50 disabled:pointer-events-none",
           buttonVariants[variant],
           className
         )}

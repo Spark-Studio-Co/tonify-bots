@@ -58,44 +58,6 @@ export default function FilterPanel({
             ))}
           </div>
         </div>
-
-        {/* Price Range Filter */}
-        <div>
-          <label className="block text-sm font-medium mb-2 text-gray-700">
-            Цена
-          </label>
-          <div className="flex items-center space-x-2">
-            <input
-              type="number"
-              value={filters.priceRange[0]}
-              onChange={(e) => {
-                const value = Number.parseInt(e.target.value);
-                onFilterChange("priceRange", [
-                  isNaN(value) ? 0 : value,
-                  filters.priceRange[1],
-                ]);
-              }}
-              placeholder="От"
-              className="w-full py-2 px-3 rounded-lg border border-gray-200 text-sm"
-            />
-            <span className="text-gray-500">—</span>
-            <input
-              type="number"
-              value={filters.priceRange[1]}
-              onChange={(e) => {
-                const value = Number.parseInt(e.target.value);
-                onFilterChange("priceRange", [
-                  filters.priceRange[0],
-                  isNaN(value) ? 1000000 : value,
-                ]);
-              }}
-              placeholder="До"
-              className="w-full py-2 px-3 rounded-lg border border-gray-200 text-sm"
-            />
-          </div>
-        </div>
-
-        {/* Location Filter */}
         <div>
           <label className="block text-sm font-medium mb-2 text-gray-700">
             Местоположение
@@ -115,65 +77,6 @@ export default function FilterPanel({
               ))}
           </select>
         </div>
-
-        {/* Status Filter */}
-        <div>
-          <label className="block text-sm font-medium mb-2 text-gray-700">
-            Статус
-          </label>
-          <div className="flex space-x-2">
-            <button
-              type="button"
-              onClick={() => onFilterChange("status", "all")}
-              className={`py-1.5 px-3 rounded-lg text-sm ${
-                filters.status === "all"
-                  ? "text-white"
-                  : "text-gray-700 bg-gray-100"
-              }`}
-              style={{
-                backgroundColor:
-                  filters.status === "all"
-                    ? "var(--color-main, #627ffe)"
-                    : undefined,
-              }}
-            >
-              Все
-            </button>
-            <button
-              type="button"
-              onClick={() => onFilterChange("status", "active")}
-              className={`py-1.5 px-3 rounded-lg text-sm ${
-                filters.status === "active"
-                  ? "text-white"
-                  : "text-gray-700 bg-gray-100"
-              }`}
-              style={{
-                backgroundColor:
-                  filters.status === "active"
-                    ? "var(--color-secondary, #7bc394)"
-                    : undefined,
-              }}
-            >
-              Активные
-            </button>
-            <button
-              type="button"
-              onClick={() => onFilterChange("status", "inactive")}
-              className={`py-1.5 px-3 rounded-lg text-sm ${
-                filters.status === "inactive"
-                  ? "text-white"
-                  : "text-gray-700 bg-gray-100"
-              }`}
-              style={{
-                backgroundColor:
-                  filters.status === "inactive" ? "#6b7280" : undefined,
-              }}
-            >
-              Неактивные
-            </button>
-          </div>
-        </div>
-
         {/* Reset Button */}
         <div className="flex justify-end">
           <button

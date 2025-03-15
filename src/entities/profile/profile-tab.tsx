@@ -1,5 +1,6 @@
 import avatar from "@/assets/avatar.png";
 import { BalanceTab } from "../balance/balance-tab";
+import { ArrowLeftRight } from "lucide-react";
 
 export default function ProfileCard() {
   const user = {
@@ -21,7 +22,10 @@ export default function ProfileCard() {
       <div className="flex flex-row justify-between w-full">
         <div className="flex flex-col items-start">
           <h2 className="font-bold text-dark text-lg">{user.name}</h2>
-          <p className="text-sm text-main">{user.role}</p>
+          <div className="flex items-center gap-2">
+            <p className="text-sm text-main">{user.role}</p>
+            <ArrowLeftRight size={12} color="#7bc394" />
+          </div>
         </div>
         <div className="mt-1 flex items-center">
           <BalanceTab />

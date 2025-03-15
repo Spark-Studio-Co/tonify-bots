@@ -7,6 +7,8 @@ import { IntroPage } from "./pages/intro-page/intro-page";
 import { OnboardingPage } from "./pages/onboarding-page/onboarding-page";
 import { SearchPage } from "./pages/search-page/search-page";
 import reactQueryClient from "./shared/api/query-client";
+import ProfilePage from "./pages/profile-page/profile-page";
+import SettingsPage from "./pages/settings-page/settings-page";
 
 const pageVariants = {
   initial: { opacity: 0, x: -50 },
@@ -82,6 +84,32 @@ const AnimatedRoutes = () => {
               exit="exit"
             >
               <SearchPage />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <motion.div
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              <ProfilePage />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <motion.div
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              <SettingsPage />
             </motion.div>
           }
         />

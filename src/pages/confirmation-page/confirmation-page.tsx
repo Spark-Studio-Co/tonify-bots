@@ -3,7 +3,7 @@ import ConfirmationCodeBlock from "./blocks/confirmation-block";
 
 export const ConfirmationCodePage = () => {
   return (
-    <Layout>
+    <Layout isAuth={false}>
       <ConfirmationCodeBlock />
     </Layout>
   );

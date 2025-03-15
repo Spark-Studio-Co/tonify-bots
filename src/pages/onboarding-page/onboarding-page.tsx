@@ -9,7 +9,7 @@ export const OnboardingPage = () => {
   const { currentState } = useOnboardingStore();
 
   return (
-    <Layout>
+    <Layout isAuth={false}>
       <AnimatePresence mode="wait">
         {currentState === 1 && (
           <motion.div

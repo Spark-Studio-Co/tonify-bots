@@ -6,7 +6,7 @@ export const Header = () => {
   const { openMenu } = useMenuStore();
 
   return (
-    <div className="w-full flex items-center justify-between">
+    <div className="w-full flex items-center justify-between pb-8">
       <Logo />
       <button
         onClick={openMenu}

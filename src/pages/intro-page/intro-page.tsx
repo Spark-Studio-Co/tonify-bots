@@ -3,7 +3,7 @@ import { OnboardingStart } from "./blocks/onboarding-start";
 
 export const IntroPage = () => {
   return (
-    <Layout>
+    <Layout isAuth={false}>
       <OnboardingStart />
     </Layout>
   );

@@ -54,7 +54,7 @@ export default function SearchBar({
   };
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative  ${className}`}>
       <form onSubmit={handleSubmit}>
         <div className="relative">
           <input
@@ -69,7 +69,6 @@ export default function SearchBar({
             className="w-full py-2.5 pl-10 pr-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-opacity-50"
             style={{
               backgroundColor: "white",
-              focusRing: "var(--color-main, #627ffe)",
             }}
           />
           <Search

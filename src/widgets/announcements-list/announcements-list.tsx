@@ -1,6 +1,9 @@
 "use client";
 
-import { Ad, AnnouncementCard } from "@/entities/announcement/announcement-tab";
+import {
+  Ad,
+  AnnouncementCard,
+} from "@/entities/announcement/ui/announcement-tab";
 
 interface AdsListProps {
   ads: Ad[];

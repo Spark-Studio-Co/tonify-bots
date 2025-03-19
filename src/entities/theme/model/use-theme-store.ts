@@ -8,6 +8,6 @@ interface ThemeState {
 }
 
 export const useThemeStore = create<ThemeState>((set) => ({
-  theme: "system", // Default theme
+  theme: "system",
   setTheme: (theme) => set({ theme }),
 }));

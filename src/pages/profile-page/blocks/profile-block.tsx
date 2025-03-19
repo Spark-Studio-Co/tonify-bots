@@ -1,7 +1,7 @@
 "use client";
 
-import { useModalBalanceStore } from "@/entities/balance/model/use-modal-balance-store";
-import ProfileCard from "@/entities/profile/profile-tab";
+import { useModalBalanceStore } from "@/entities/balance/store/use-modal-balance-store";
+import ProfileCard from "@/entities/profile/ui/promoter-profile-tab";
 import StatsChart from "@/entities/stats/stats-chart";
 import StatsGrid from "@/entities/stats/ton-earnings";
 import StatsMetrics from "@/entities/stats/stats-metrics";
@@ -48,7 +48,7 @@ export const ProfileBlock = () => {
   };
 
   return (
-    <div className="min-h-screen pb-20">
+    <div className="min-h-screen w-full pb-20">
       <div className="container mx-auto  max-w-md space-y-6">
         <ProfileCard />
         <div className="flex gap-3 mt-4">
@@ -65,16 +65,11 @@ export const ProfileBlock = () => {
             variant="secondary"
           />
         </div>
-
-        {/* TON Earnings Grid */}
         <StatsGrid
           title="Количество заработанных TON"
           values={stats.tonEarnings}
         />
-
-        {/* Metrics */}
         <StatsMetrics metrics={metrics} />
-
         <StatsChart data={stats.viewsData} />
       </div>
     </div>

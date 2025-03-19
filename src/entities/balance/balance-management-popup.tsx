@@ -2,7 +2,7 @@
 
 import Modal from "@/shared/layouts/modal-layout";
 import { motion } from "framer-motion";
-import { useModalBalanceStore } from "./model/use-modal-balance-store";
+import { useModalBalanceStore } from "./store/use-modal-balance-store";
 
 export default function BalanceModal() {
   const { isModalOpen, closeModal, balance } = useModalBalanceStore();

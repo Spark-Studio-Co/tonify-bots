@@ -9,6 +9,8 @@ import { SearchPage } from "./pages/search-page/search-page";
 import reactQueryClient from "./shared/api/query-client";
 import ProfilePage from "./pages/profile-page/profile-page";
 import SettingsPage from "./pages/settings-page/settings-page";
+import AddAnnouncementPage from "./pages/add-announcement-page/add-announcement-page";
+import { AddChatPage } from "./pages/add-chat-page/add-chat-page";
 
 const pageVariants = {
   initial: { opacity: 0, x: -50 },
@@ -97,6 +99,32 @@ const AnimatedRoutes = () => {
               exit="exit"
             >
               <ProfilePage />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/add-announcement"
+          element={
+            <motion.div
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              <AddAnnouncementPage />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/add-chat"
+          element={
+            <motion.div
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              <AddChatPage />
             </motion.div>
           }
         />

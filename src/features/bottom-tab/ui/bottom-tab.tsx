@@ -4,9 +4,11 @@ import { motion } from "framer-motion";
 import { Home, Plus, Search, Settings, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useNavStore } from "../model/use-navigation-store";
+import { useProfileStore } from "@/entities/profile/model/use-profile-store";
 
 export default function BottomTab() {
   const { activeTab, setActiveTab } = useNavStore();
+  const { isChatOwner } = useProfileStore();
   const navigate = useNavigate();
 
   const tabs = [
@@ -24,7 +26,12 @@ export default function BottomTab() {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-20">
       {/* FAB Button */}
-      <div className="absolute left-1/2 -translate-x-1/2 -top-7 z-10">
+      <div
+        className="absolute left-1/2 -translate-x-1/2 -top-7 z-10"
+        onClick={() =>
+          navigate(isChatOwner ? "/add-chat" : "/add-announcement")
+        }
+      >
         <motion.button
           className="w-14 h-14 rounded-full flex items-center justify-center"
           style={{

@@ -4,7 +4,7 @@ import { useSearchStore } from "@/entities/search/model/use-search-store";
 import FilterPanel from "@/entities/search/ui/filter-panel";
 import FilterToggle from "@/entities/search/ui/filter-toggle";
 import SearchBar from "@/entities/search/ui/search-bar";
-import SortControls from "@/entities/search/ui/sort-controlts";
+import SortControls, { SortOption } from "@/entities/search/ui/sort-controlts";
 import SearchResults from "@/widgets/search-results/search-results";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -120,8 +120,8 @@ export default function SearchBlock() {
   return (
     <div className="flex flex-col w-full mt-8 min-h-screen">
       {/* Search Header */}
-      <div className="sticky top-4 z-10 bg-white shadow-sm">
-        <div className=" mx-auto max-w-md">
+      <div className="sticky p-4 top-4 z-10 bg-white shadow-sm">
+        <div className="mx-auto max-w-md">
           <SearchBar
             value={searchQuery}
             onChange={setSearchQuery}
@@ -162,7 +162,7 @@ export default function SearchBlock() {
             <div className="container mx-auto px-4 py-4 max-w-md">
               <FilterPanel
                 filters={filters}
-                onFilterChange={handleFilterChange}
+                onFilterChange={handleFilterChange as any}
                 onReset={handleResetFilters}
                 categories={categories}
                 locations={locations}

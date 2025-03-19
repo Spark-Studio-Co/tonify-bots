@@ -1,6 +1,6 @@
 "use client";
 
-import ProfileCard from "@/entities/profile/profile-tab";
+import ProfileCard from "@/entities/profile/ui/promoter-profile-tab";
 import ReferralCard from "@/entities/referral/referral-card";
 import ActionButton from "@/shared/ui/action-button/action-button";
 import AnnouncementsList from "@/widgets/announcements-list/announcements-list";
@@ -8,10 +8,13 @@ import { PlusCircle, Wallet } from "lucide-react";
 import { useState } from "react";
 
 import announcement from "@/assets/announcement.png";
-import { useModalBalanceStore } from "@/entities/balance/model/use-modal-balance-store";
+import { useModalBalanceStore } from "@/entities/balance/store/use-modal-balance-store";
+import PromoterProfileCard from "@/entities/profile/ui/promoter-profile-tab";
+import { useNavigate } from "react-router-dom";
 
-export const HomeBlock = () => {
+export const HomePromoterBlock = () => {
   const [adsFilter, setAdsFilter] = useState("all");
+  const navigate = useNavigate();
   const { openModal } = useModalBalanceStore();
 
   const ads = [
@@ -59,24 +62,20 @@ export const HomeBlock = () => {
     },
   ];
 
-  const handleCreateAd = () => {
-    console.log("Create ad clicked");
-  };
-
   const handleManageBalance = () => {
     openModal();
     console.log("Manage balance clicked");
   };
 
   return (
-    <div className="flex flex-col min-h-screen ">
+    <div className="w-full flex flex-col min-h-screen ">
       <main className="flex-1 container mx-auto  max-w-md">
-        <ProfileCard />
+        <PromoterProfileCard />
         <div className="flex gap-3 mt-4">
           <ActionButton
             icon={<PlusCircle size={18} />}
             label="Создать объявление"
-            onClick={handleCreateAd}
+            onClick={() => navigate("/add-announcement")}
             variant="primary"
           />
           <ActionButton

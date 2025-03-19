@@ -1,8 +1,11 @@
 import avatar from "@/assets/avatar.png";
-import { BalanceTab } from "../balance/balance-tab";
+import { BalanceTab } from "../../balance/balance-tab";
 import { ArrowLeftRight } from "lucide-react";
+import { useProfileStore } from "../model/use-profile-store";
 
-export default function ProfileCard() {
+export default function PromoterProfileCard() {
+  const { setIsChatOwner } = useProfileStore();
+
   const user = {
     avatar: avatar,
     name: "Иван Иванов",
@@ -22,7 +25,10 @@ export default function ProfileCard() {
       <div className="flex flex-row justify-between w-full">
         <div className="flex flex-col items-start">
           <h2 className="font-bold text-dark text-lg">{user.name}</h2>
-          <div className="flex items-center gap-2">
+          <div
+            className="flex items-center gap-2"
+            onClick={() => setIsChatOwner()}
+          >
             <p className="text-sm text-main">{user.role}</p>
             <ArrowLeftRight size={12} color="#7bc394" />
           </div>

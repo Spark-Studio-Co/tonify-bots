@@ -9,9 +9,6 @@ import {
   HelpCircle,
   Info,
   LogOut,
-  Smartphone,
-  Shield,
-  MessageSquare,
   Trash2,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -23,25 +20,16 @@ import ThemeToggle from "@/entities/theme/ui/theme-toggle";
 export default function SettingsBlock() {
   const navigate = useNavigate();
 
-  // State for toggles
   const [notifications, setNotifications] = useState({
     newMessages: true,
     newOrders: true,
-    promotions: false,
+    promotions: true,
     updates: true,
   });
 
-  const [privacy, setPrivacy] = useState({
-    profileVisibility: true,
-    activityStatus: true,
-    dataCollection: false,
-  });
-
-  // State for dialogs
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
-  // Handle logout
   const handleLogout = () => {
     console.log("Logging out...");
     // Implement logout logic here
@@ -50,7 +38,6 @@ export default function SettingsBlock() {
     // router.push('/login');
   };
 
-  // Handle account deletion
   const handleDeleteAccount = () => {
     console.log("Deleting account...");
     // Implement account deletion logic here
@@ -59,7 +46,6 @@ export default function SettingsBlock() {
     // router.push('/login');
   };
 
-  // Navigate to personal data form
   const navigateToPersonalData = () => {
     navigate("/settings/personal-data");
   };

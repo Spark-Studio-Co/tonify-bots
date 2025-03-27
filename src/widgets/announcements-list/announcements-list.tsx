@@ -8,15 +8,12 @@ export default function AnnouncementsList() {
 
   return (
     <div className="mt-4">
-      <div className="flex items-center justify-between mb-3">
-        <h3
-          className="font-semibold"
-          style={{ color: "var(--color-dark, #121826)" }}
-        >
-          Мои объявления
-        </h3>
-      </div>
-
+      <h3
+        className="font-semibold mb-3"
+        style={{ color: "var(--color-dark, #121826)" }}
+      >
+        Мои объявления
+      </h3>
       <div className="space-y-3">
         {isLoading ? (
           <p className="text-center text-gray-500 py-4">

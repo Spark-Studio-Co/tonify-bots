@@ -2,7 +2,7 @@ import type React from "react";
 
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { Image, Users, Send, X, Check } from "lucide-react";
+import { Image, Users, X, Check } from "lucide-react";
 
 export const AddAnnouncementBlock = () => {
   const [formData, setFormData] = useState({

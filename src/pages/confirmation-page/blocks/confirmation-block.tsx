@@ -1,5 +1,6 @@
 "use client";
 
+import { useVerifyCode } from "@/entities/auth/hooks/mutations/use-verify-auth.mutation";
 import { Button } from "@/shared/ui/button/button";
 import { LockKeyhole, RefreshCw } from "lucide-react";
 import type React from "react";
@@ -13,6 +14,7 @@ export default function ConfirmationCodeBlock() {
   const [isResending, setIsResending] = useState(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const { mutate } = useVerifyCode();
 
   useEffect(() => {
     inputRefs.current = inputRefs.current.slice(0, 5);
@@ -111,8 +113,21 @@ export default function ConfirmationCodeBlock() {
   const handleVerify = () => {
     const fullCode = code.join("");
     if (fullCode.length === 5) {
-      navigate("/home");
-      console.log("Verifying code:", fullCode);
+      mutate(
+        {
+          chatId: localStorage.getItem("chatId") || "", // или откуда ты получаешь chatId
+          code: fullCode,
+        },
+        {
+          onSuccess: () => {
+            navigate("/home");
+          },
+          onError: (err: any) => {
+            console.error("❌ Verification error:", err);
+            alert("Неверный код. Попробуйте снова.");
+          },
+        }
+      );
     }
   };
 
@@ -151,7 +166,6 @@ export default function ConfirmationCodeBlock() {
             введите его ниже.
           </p>
         </div>
-
         <div className="flex justify-center gap-3 mb-8">
           {Array(5)
             .fill(0)
@@ -197,7 +211,6 @@ export default function ConfirmationCodeBlock() {
               </div>
             ))}
         </div>
-
         <div className="flex flex-col items-center gap-4">
           <Button
             text="Подтвердить"

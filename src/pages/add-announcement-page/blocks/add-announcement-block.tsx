@@ -147,7 +147,6 @@ export const AddAnnouncementBlock = () => {
                   <p className="mt-1 text-sm text-red-500">{errors.title}</p>
                 )}
               </div>
-
               <div>
                 <label
                   htmlFor="message"
@@ -172,7 +171,6 @@ export const AddAnnouncementBlock = () => {
               </div>
             </div>
           </div>
-
           {/* Image Upload */}
           <div className="bg-white rounded-xl shadow-sm overflow-hidden">
             <div className="p-4">
@@ -230,7 +228,9 @@ export const AddAnnouncementBlock = () => {
           <div className="bg-white rounded-xl shadow-sm overflow-hidden">
             <div className="p-4 space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="font-medium text-gray-900">Выберите чаты*</h3>
+                <h3 className="font-medium text-gray-900">
+                  Выберите категории*
+                </h3>
                 <span className="text-sm text-gray-500">
                   Выбрано: {formData.targetChats.length}
                 </span>

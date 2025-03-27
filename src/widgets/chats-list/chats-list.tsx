@@ -2,54 +2,15 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useChats } from "@/entities/chat/hooks/queries/use-get-chats.queries";
 
-const chats = [
-  {
-    id: 1,
-    name: "💼 Работа и вакансии",
-    lastMessage: "Нужен дизайнер на удаленку!",
-    category: "work",
-  },
-  {
-    id: 2,
-    name: "🎮 Геймеры России",
-    lastMessage: "Кто в CS2 сегодня вечером?",
-    category: "gaming",
-  },
-  {
-    id: 3,
-    name: "🌍 Путешествия и туризм",
-    lastMessage: "Какой город в Европе посоветуете?",
-    category: "travel",
-  },
-  {
-    id: 4,
-    name: "📚 Книжный клуб",
-    lastMessage: "Читаем 'Мастер и Маргарита', кто с нами?",
-    category: "books",
-  },
-  {
-    id: 5,
-    name: "⚽ Фанаты футбола",
-    lastMessage: "Барса vs Реал – ваши прогнозы?",
-    category: "sports",
-  },
-  {
-    id: 6,
-    name: "🎨 Арт и творчество",
-    lastMessage: "Как улучшить технику акварели?",
-    category: "art",
-  },
-];
-
-// Chat Category Filters with icons
 const filters = [
   { value: "all", label: "Все", icon: "📢" },
   { value: "work", label: "Работа", icon: "💼" },
   { value: "gaming", label: "Игры", icon: "🎮" },
   { value: "travel", label: "Путешествия", icon: "🌍" },
   { value: "books", label: "Книги", icon: "📚" },
-  { value: "sports", label: "Спорт", icon: "��" },
+  { value: "sports", label: "Спорт", icon: "⚽" },
   { value: "art", label: "Искусство", icon: "🎨" },
 ];
 
@@ -58,7 +19,8 @@ export default function ChatsList() {
   const [showAllFilters, setShowAllFilters] = useState(false);
   const filtersRef = useRef<HTMLDivElement>(null);
 
-  // Handle click outside to close expanded filters on mobile
+  const { data: chats = [], isLoading, isError } = useChats();
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -74,19 +36,15 @@ export default function ChatsList() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showAllFilters]);
 
-  // Filtered Chats based on the selected category
   const filteredChats =
     filter === "all" ? chats : chats.filter((chat) => chat.category === filter);
 
-  // Get current filter object
   const currentFilter = filters.find((f) => f.value === filter) || filters[0];
 
   return (
     <div className="mt-4">
       <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center">
-          <h3 className="font-semibold text-gray-900 text-lg">📢 Мои чаты</h3>
-        </div>
+        <h3 className="font-semibold text-gray-900 text-lg">📢 Мои чаты</h3>
         <div className="sm:hidden">
           <motion.button
             whileTap={{ scale: 0.95 }}
@@ -113,11 +71,10 @@ export default function ChatsList() {
                 showAllFilters ? "rotate-180" : ""
               }`}
             >
-              <polyline points="6 9 12 15 18 9"></polyline>
+              <polyline points="6 9 12 15 18 9" />
             </svg>
           </motion.button>
 
-          {/* Mobile Filters Dropdown */}
           {showAllFilters && (
             <div
               ref={filtersRef}
@@ -151,6 +108,7 @@ export default function ChatsList() {
           )}
         </div>
       </div>
+
       <div className="hidden sm:block mb-4 overflow-x-auto pb-1 scrollbar-hide">
         <div className="flex space-x-2 min-w-max">
           {filters.map((f) => (
@@ -181,9 +139,14 @@ export default function ChatsList() {
           ))}
         </div>
       </div>
+
       <div className="space-y-3">
-        {filteredChats.length > 0 ? (
-          filteredChats.map((chat) => (
+        {isLoading ? (
+          <p className="text-gray-500 text-center">Загрузка чатов...</p>
+        ) : isError ? (
+          <p className="text-red-500 text-center">Ошибка загрузки чатов</p>
+        ) : filteredChats.length > 0 ? (
+          filteredChats.map((chat: any) => (
             <motion.div
               key={chat.id}
               initial={{ opacity: 0, y: 10 }}
@@ -196,7 +159,9 @@ export default function ChatsList() {
               }}
             >
               <h4 className="font-medium text-gray-900">{chat.name}</h4>
-              <p className="text-sm text-gray-500 mt-1">{chat.lastMessage}</p>
+              <p className="text-sm text-gray-500 mt-1">
+                {chat.lastMessage || "Нет сообщений"}
+              </p>
             </motion.div>
           ))
         ) : (
@@ -217,18 +182,18 @@ export default function ChatsList() {
 function getCategoryColor(category: string): string {
   switch (category) {
     case "work":
-      return "#4f46e5"; // Indigo
+      return "#4f46e5";
     case "gaming":
-      return "#8b5cf6"; // Purple
+      return "#8b5cf6";
     case "travel":
-      return "#3b82f6"; // Blue
+      return "#3b82f6";
     case "books":
-      return "#10b981"; // Emerald
+      return "#10b981";
     case "sports":
-      return "#ef4444"; // Red
+      return "#ef4444";
     case "art":
-      return "#f59e0b"; // Amber
+      return "#f59e0b";
     default:
-      return "#6b7280"; // Gray
+      return "#6b7280";
   }
 }

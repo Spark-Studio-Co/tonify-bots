@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-
 import { ITelegramUser, IWebApp } from "../types/types";
 import { useRegisterUser } from "@/entities/auth/hooks/mutations/use-register.mutation";
 import { useAuthData } from "@/entities/auth/store/use-auth.store";
@@ -18,8 +17,6 @@ export const TelegramProvider = ({
   children: React.ReactNode;
 }) => {
   const [webApp, setWebApp] = useState<IWebApp | null>(null);
-  const { mutate: register } = useRegisterUser();
-  const { saveToken } = useAuthData();
   useExpandView();
 
   useEffect(() => {
@@ -67,6 +64,7 @@ export const TelegramProvider = ({
         console.log("🔄 Authenticating user...");
         // const response = await register(userData as any);
         // saveToken(response.accessToken as any);
+        // test
 
         // console.log("✅ Token updated and saved:", response.token);
       } catch (error) {

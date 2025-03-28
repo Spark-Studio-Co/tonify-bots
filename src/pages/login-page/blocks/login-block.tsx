@@ -29,7 +29,7 @@ export default function LoginBlock() {
         onSuccess: (data) => {
           localStorage.setItem("accessToken", data.accessToken);
           localStorage.setItem("chatId", chatId);
-          window.location.href = "/dashboard"; // или куда тебе нужно
+          window.location.href = "/home"; // или куда тебе нужно
         },
         onError: (err: any) => {
           console.error("Login error:", err);

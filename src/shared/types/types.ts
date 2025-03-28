@@ -1,4 +1,3 @@
-// types.ts
 export interface ITelegramUser {
   id: number;
   first_name: string;

@@ -573,6 +573,18 @@
   dependencies:
     "@tanstack/query-core" "5.67.2"
 
+"@twa-dev/sdk@^8.0.1":
+  version "8.0.1"
+  resolved "https://registry.npmmirror.com/@twa-dev/sdk/-/sdk-8.0.1.tgz#c34119c0822a2b5583a201ccd1e755efe39b55e1"
+  integrity sha512-mBR5dnAvSyRx7YGt/n0Owq1z8MsWhsuh76JD1abV0TZWHi6RQSPXBNAG0XMOMO7Vf5hsAwUTul+x54vf43Ku0A==
+  dependencies:
+    "@twa-dev/types" "^8.0.1"
+
+"@twa-dev/types@^8.0.1":
+  version "8.0.2"
+  resolved "https://registry.npmmirror.com/@twa-dev/types/-/types-8.0.2.tgz#118620c1ff8724de82063b1318a8749bd40b0d8b"
+  integrity sha512-ICQ6n4NaUPPzV3/GzflVQS6Nnu5QX2vr9OlOG8ZkFf3rSJXzRKazrLAbZlVhCPPWkIW3MMuELPsE6tByrA49qA==
+
 "@types/chartjs@^0.0.31":
   version "0.0.31"
   resolved "https://registry.npmmirror.com/@types/chartjs/-/chartjs-0.0.31.tgz#b16a687eaad3ea3e5cd3e961aee5a28e47b57949"

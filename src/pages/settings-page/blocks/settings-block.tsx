@@ -118,7 +118,7 @@ export default function SettingsBlock() {
         {/* Account Actions */}
         <div className="mt-8 space-y-4">
           <button
-            onClick={() => setShowLogoutDialog(true)}
+            onClick={() => navigate("/")}
             className="w-full py-3 px-4 rounded-xl flex items-center justify-center bg-red-400 text-white font-medium"
           >
             <LogOut size={18} className="mr-2" />

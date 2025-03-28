@@ -11,6 +11,7 @@ import ProfilePage from "./pages/profile-page/profile-page";
 import SettingsPage from "./pages/settings-page/settings-page";
 import AddAnnouncementPage from "./pages/add-announcement-page/add-announcement-page";
 import { AddChatPage } from "./pages/add-chat-page/add-chat-page";
+import { LoginPage } from "./pages/login-page/login-page";
 
 const pageVariants = {
   initial: { opacity: 0, x: -50 },
@@ -34,6 +35,19 @@ const AnimatedRoutes = () => {
               exit="exit"
             >
               <IntroPage />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <motion.div
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+            >
+              <LoginPage />
             </motion.div>
           }
         />

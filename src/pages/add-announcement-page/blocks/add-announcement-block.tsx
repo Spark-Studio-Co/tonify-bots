@@ -3,11 +3,12 @@ import type React from "react";
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Image, Users, X, Check } from "lucide-react";
+import { useAddAnnouncement } from "@/entities/announcement/hooks/mutations/use-add-announcement.mutation";
 
 export const AddAnnouncementBlock = () => {
   const [formData, setFormData] = useState({
-    title: "",
-    message: "",
+    name: "",
+    description: "",
     imageUrl: "",
     scheduledDate: "",
     scheduledTime: "",
@@ -16,6 +17,8 @@ export const AddAnnouncementBlock = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { mutate: addAnnouncement, isPending: isLoading } =
+    useAddAnnouncement();
 
   // Available chats for targeting
   const availableChats = [
@@ -93,12 +96,12 @@ export const AddAnnouncementBlock = () => {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.title.trim()) {
-      newErrors.title = "Введите заголовок объявл��ния";
+    if (!formData.name.trim()) {
+      newErrors.name = "Введите заголовок объявл��ния";
     }
 
-    if (!formData.message.trim()) {
-      newErrors.message = "Введите текст объявления";
+    if (!formData.description.trim()) {
+      newErrors.description = "Введите текст объявления";
     }
 
     if (formData.targetChats.length === 0) {
@@ -112,9 +115,17 @@ export const AddAnnouncementBlock = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
+
+    const payload = {
+      ...formData,
+      scheduledAt:
+        formData.scheduledDate && formData.scheduledTime
+          ? new Date(`${formData.scheduledDate}T${formData.scheduledTime}`)
+          : null,
+    };
+
+    addAnnouncement(payload as any);
   };
 
   return (
@@ -122,7 +133,7 @@ export const AddAnnouncementBlock = () => {
       {/* Form */}
       <div className="w-full">
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Title & Message */}
+          {/* Title & description */}
           <div className="bg-white rounded-xl shadow-sm overflow-hidden">
             <div className="p-4 space-y-4">
               <div>
@@ -134,39 +145,41 @@ export const AddAnnouncementBlock = () => {
                 </label>
                 <input
                   type="text"
-                  id="title"
-                  name="title"
-                  value={formData.title}
+                  id="name"
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
                   placeholder="Введите заголовок объявления"
                   className={`w-full py-3 px-4 rounded-xl border ${
-                    errors.title ? "border-red-500" : "border-gray-200"
+                    errors.name ? "border-red-500" : "border-gray-200"
                   } bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-blue-500`}
                 />
-                {errors.title && (
-                  <p className="mt-1 text-sm text-red-500">{errors.title}</p>
+                {errors.name && (
+                  <p className="mt-1 text-sm text-red-500">{errors.name}</p>
                 )}
               </div>
               <div>
                 <label
-                  htmlFor="message"
+                  htmlFor="description"
                   className="block text-sm font-medium mb-1 text-gray-700"
                 >
                   Текст объявления*
                 </label>
                 <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
+                  id="description"
+                  name="description"
+                  value={formData.description}
                   onChange={handleChange}
                   placeholder="Введите текст объявления"
                   rows={4}
                   className={`w-full py-3 px-4 rounded-xl border ${
-                    errors.message ? "border-red-500" : "border-gray-200"
+                    errors.description ? "border-red-500" : "border-gray-200"
                   } bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-blue-500`}
                 />
-                {errors.message && (
-                  <p className="mt-1 text-sm text-red-500">{errors.message}</p>
+                {errors.description && (
+                  <p className="mt-1 text-sm text-red-500">
+                    {errors.description}
+                  </p>
                 )}
               </div>
             </div>
@@ -193,7 +206,6 @@ export const AddAnnouncementBlock = () => {
                   className="hidden"
                 />
               </div>
-
               {previewImage ? (
                 <div className="relative">
                   <img
@@ -269,13 +281,14 @@ export const AddAnnouncementBlock = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
-            className="w-full py-3.5 px-6 rounded-xl text-white font-medium flex items-center justify-center"
+            disabled={isLoading}
+            className="w-full py-3.5 px-6 rounded-xl text-white font-medium flex items-center justify-center disabled:opacity-50"
             style={{
               backgroundColor: "var(--color-main, #627ffe)",
               boxShadow: "0 4px 14px rgba(98, 127, 254, 0.2)",
             }}
           >
-            Опубликовать объявление
+            {isLoading ? "Публикуем..." : "Опубликовать объявление"}
           </motion.button>
         </form>
       </div>

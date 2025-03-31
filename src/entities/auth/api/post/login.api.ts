@@ -1,7 +1,7 @@
 import { apiClient } from "@/shared/api/apiClient";
 
 export const loginUser = async (data: {
-  chatId: string;
+  telegramUsername: any;
   password: string;
 }): Promise<{
   message: string;

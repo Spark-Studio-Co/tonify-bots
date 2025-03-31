@@ -5,31 +5,35 @@ import { LockKeyhole } from "lucide-react";
 import { Input } from "@/shared/ui/input/input";
 import { Button } from "@/shared/ui/button/button";
 import { useLoginUser } from "@/entities/auth/hooks/mutations/use-login.mutation";
+import { useTelegram } from "@/shared/layouts/telegram-provider";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginBlock() {
-  const [chatId, setChatId] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { webApp } = useTelegram();
+  const navigate = useNavigate();
 
   const { mutate: login, isPending: isLoading } = useLoginUser();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!chatId || !password) {
+    if (!password) {
       setError("Пожалуйста, заполните все поля");
       return;
     }
 
     setError("");
 
+    console.log(webApp?.initDataUnsafe.user.username);
+
     login(
-      { chatId, password },
+      { telegramUsername: webApp?.initDataUnsafe.user.username, password },
       {
         onSuccess: (data) => {
           localStorage.setItem("accessToken", data.accessToken);
-          localStorage.setItem("chatId", chatId);
-          window.location.href = "/home"; // или куда тебе нужно
+          navigate("/home");
         },
         onError: (err: any) => {
           console.error("Login error:", err);
@@ -51,25 +55,12 @@ export default function LoginBlock() {
               Вход в аккаунт
             </h2>
             <p className="text-center text-sm max-w-xs text-[--color-dark] opacity-70">
-              Введите ваш Chat ID и пароль для входа в систему
+              Введите ваш пароль для входа в систему
             </p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-4">
-              <Input
-                id="chatId"
-                label="Chat ID"
-                placeholder="Введите ваш Chat ID"
-                value={chatId}
-                onChange={(e) => setChatId(e.target.value)}
-                className={`bg-white border-2 h-14 px-4 transition-all duration-200 ${
-                  chatId
-                    ? "border-[rgba(98,127,254,0.3)] shadow-[0_2px_8px_rgba(98,127,254,0.15)] -translate-y-0.5"
-                    : "border-opacity-30"
-                } focus:border-[--color-main]`}
-              />
-
               <Input
                 id="password"
                 type="password"

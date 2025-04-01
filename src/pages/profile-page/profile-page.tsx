@@ -1,4 +1,3 @@
-"use client";
 import { Layout } from "@/shared/layouts/layout";
 import { ProfileBlock } from "./blocks/profile-block";
 

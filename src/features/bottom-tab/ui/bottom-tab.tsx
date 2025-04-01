@@ -1,5 +1,3 @@
-"use client";
-
 import { motion } from "framer-motion";
 import { Home, Plus, Search, Settings, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";

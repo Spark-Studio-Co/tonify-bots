@@ -1,5 +1,3 @@
-"use client";
-
 import { useVerifyCode } from "@/entities/auth/hooks/mutations/use-verify-auth.mutation";
 import { Button } from "@/shared/ui/button/button";
 import { LockKeyhole, RefreshCw } from "lucide-react";

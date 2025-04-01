@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { LockKeyhole } from "lucide-react";
 import { Input } from "@/shared/ui/input/input";

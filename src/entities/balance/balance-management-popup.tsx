@@ -1,5 +1,3 @@
-"use client";
-
 import Modal from "@/shared/layouts/modal-layout";
 import { motion } from "framer-motion";
 import { useModalBalanceStore } from "./store/use-modal-balance-store";

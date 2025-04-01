@@ -1,5 +1,3 @@
-"use client";
-
 import { useSearchStore } from "@/entities/search/model/use-search-store";
 import FilterPanel from "@/entities/search/ui/filter-panel";
 import FilterToggle from "@/entities/search/ui/filter-toggle";

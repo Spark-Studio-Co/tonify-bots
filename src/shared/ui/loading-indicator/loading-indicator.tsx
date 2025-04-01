@@ -1,5 +1,3 @@
-"use client";
-
 interface LoadingIndicatorProps {
   size?: "small" | "medium" | "large";
   className?: string;

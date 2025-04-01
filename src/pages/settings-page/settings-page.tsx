@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect } from "react";
 import { Layout } from "@/shared/layouts/layout";
 import SettingsBlock from "./blocks/settings-block";

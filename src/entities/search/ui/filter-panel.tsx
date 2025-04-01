@@ -1,5 +1,3 @@
-"use client";
-
 export interface FilterValues {
   category: string;
   priceRange: [number, number];

@@ -1,5 +1,3 @@
-"use client";
-
 import Modal from "@/shared/layouts/modal-layout";
 import { motion } from "framer-motion";
 import { Bot, Shield, ArrowRight } from "lucide-react";

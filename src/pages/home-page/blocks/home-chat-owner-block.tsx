@@ -1,5 +1,3 @@
-"use client";
-
 import ReferralCard from "@/entities/referral/referral-card";
 import ActionButton from "@/shared/ui/action-button/action-button";
 import { PlusCircle, Wallet } from "lucide-react";

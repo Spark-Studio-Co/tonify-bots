@@ -1,5 +1,3 @@
-"use client";
-
 import { ArrowDown, ArrowUp } from "lucide-react";
 
 export type SortOption = "relevance" | "date" | "price";

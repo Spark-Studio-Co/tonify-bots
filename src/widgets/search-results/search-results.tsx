@@ -1,5 +1,3 @@
-"use client";
-
 import { AnnouncementCard } from "@/entities/announcement/ui/announcement-card";
 import { Announcement } from "@/entities/search/model/use-search-store";
 import LoadingIndicator from "@/shared/ui/loading-indicator/loading-indicator";

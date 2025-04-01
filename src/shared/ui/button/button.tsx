@@ -1,5 +1,3 @@
-"use client";
-
 import { ButtonHTMLAttributes, forwardRef } from "react";
 import { cn } from "../../lib/utils";
 
@@ -17,10 +15,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    { className, variant = "primary", disabled, text, children, ...props },
-    ref
-  ) => {
+  ({ className, variant = "primary", disabled, text, ...props }, ref) => {
     return (
       <button
         className={cn(

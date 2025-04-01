@@ -1,12 +1,11 @@
-"use client";
-
 import { useModalBalanceStore } from "@/entities/balance/store/use-modal-balance-store";
-import ProfileCard from "@/entities/profile/ui/promoter-profile-tab";
+// import ProfileCard from "@/entities/profile/ui/promoter-profile-tab";
 import StatsChart from "@/entities/stats/stats-chart";
 import StatsGrid from "@/entities/stats/ton-earnings";
 import StatsMetrics from "@/entities/stats/stats-metrics";
 import ActionButton from "@/shared/ui/action-button/action-button";
 import { PlusCircle, Wallet } from "lucide-react";
+import PromoterProfileCard from "@/entities/profile/ui/promoter-profile-tab";
 
 // Generate mock data for views chart
 const generateMockViewsData = () => {
@@ -50,7 +49,7 @@ export const ProfileBlock = () => {
   return (
     <div className="min-h-screen w-full pb-20">
       <div className="container mx-auto  max-w-md space-y-6">
-        <ProfileCard />
+        <PromoterProfileCard />
         <div className="flex gap-3 mt-4">
           <ActionButton
             icon={<PlusCircle size={18} />}

@@ -3,12 +3,12 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, Search, ExternalLink, MessageCircle } from "lucide-react";
 import { useCreateChat } from "@/entities/chat/hooks/mutations/use-create-chat.mutation";
+import WebApp from "@twa-dev/sdk";
 
 export default function AddChatBlock() {
   const [chatLink, setChatLink] = useState("");
   const [chatName, setChatName] = useState("");
   const [error, setError] = useState("");
-  const chatId = localStorage.getItem("chatId");
 
   const { mutate: createChat, isPending } = useCreateChat();
 
@@ -35,7 +35,7 @@ export default function AddChatBlock() {
       link: chatLink.trim(),
       status: "active",
       imageUrl: "/default-chat.png",
-      chatId: chatId,
+      telegramUsername: WebApp!.initDataUnsafe!.user!.username || "",
     };
 
     createChat(payload, {

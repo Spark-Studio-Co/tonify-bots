@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Image, Users, X, Check } from "lucide-react";
 import { useAddAnnouncement } from "@/entities/announcement/hooks/mutations/use-add-announcement.mutation";
+import WebApp from "@twa-dev/sdk";
 
 export const AddAnnouncementBlock = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ export const AddAnnouncementBlock = () => {
     imageUrl: "",
     scheduledDate: "",
     scheduledTime: "",
+    telegramUsername: "",
     targetChats: [] as string[],
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -123,6 +125,7 @@ export const AddAnnouncementBlock = () => {
         formData.scheduledDate && formData.scheduledTime
           ? new Date(`${formData.scheduledDate}T${formData.scheduledTime}`)
           : null,
+      telegramUsername: WebApp!.initDataUnsafe!.user!.username || "",
     };
 
     addAnnouncement(payload as any);

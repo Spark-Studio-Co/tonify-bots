@@ -3,4 +3,5 @@ export interface ICreateChatDTO {
   link: string;
   status: string;
   imageUrl: string;
+  telegramUsername: string;
 }

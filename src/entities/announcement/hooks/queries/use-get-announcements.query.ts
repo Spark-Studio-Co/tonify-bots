@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAnnouncements } from "../../api/get/get-announcements.api";
-import type { Ad } from "@/entities/announcement/ui/announcement-tab";
+import type { Ad } from "@/entities/search/model/use-search-store";
 
 const mapStatus = (status: "active" | "inactive"): "open" | "closed" => {
   return status === "active" ? "open" : "closed";

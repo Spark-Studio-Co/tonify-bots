@@ -1,14 +1,23 @@
 import { create } from "zustand";
 
-export interface Announcement {
+export interface CardItemBase {
   id: number;
   title: string;
+  image: string;
+  date: string;
+  status: string;
+}
+
+export interface Ad extends CardItemBase {
+  key?: number;
+  status: "open" | "closed";
+}
+
+export interface Announcement extends CardItemBase {
   description: string;
   price?: number;
   location?: string;
   category: string;
-  image: string;
-  date: string;
   status: "active" | "inactive";
   featured?: boolean;
 }

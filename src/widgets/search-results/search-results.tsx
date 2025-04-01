@@ -1,6 +1,6 @@
 "use client";
 
-import { AnnouncementCard } from "@/entities/announcement/ui/announcement-tab";
+import { AnnouncementCard } from "@/entities/announcement/ui/announcement-card";
 import { Announcement } from "@/entities/search/model/use-search-store";
 import LoadingIndicator from "@/shared/ui/loading-indicator/loading-indicator";
 
@@ -15,7 +15,7 @@ interface SearchResultsProps {
 export default function SearchResults({
   results,
   isLoading,
-  onAnnouncementClick,
+  // onAnnouncementClick,
   onReset,
   className = "",
 }: SearchResultsProps) {
@@ -36,8 +36,8 @@ export default function SearchResults({
       {results.map((announcement) => (
         <AnnouncementCard
           key={announcement.id}
-          announcement={announcement}
-          onClick={onAnnouncementClick}
+          // ad={announcement}
+          // onClick={onAnnouncementClick}
         />
       ))}
     </div>

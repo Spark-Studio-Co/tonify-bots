@@ -1,7 +1,7 @@
 "use client";
 
 import { useAnnouncements } from "@/entities/announcement/hooks/queries/use-get-announcements.query";
-import { AnnouncementCard } from "@/entities/announcement/ui/announcement-tab";
+import { AnnouncementCard } from "@/entities/announcement/ui/announcement-card";
 
 export default function AnnouncementsList() {
   const { data: ads = [], isLoading, isError } = useAnnouncements();

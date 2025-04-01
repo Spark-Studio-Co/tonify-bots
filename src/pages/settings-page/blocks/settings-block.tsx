@@ -27,25 +27,6 @@ export default function SettingsBlock() {
     updates: true,
   });
 
-  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-
-  const handleLogout = () => {
-    console.log("Logging out...");
-    // Implement logout logic here
-    setShowLogoutDialog(false);
-    // Redirect to login page
-    // router.push('/login');
-  };
-
-  const handleDeleteAccount = () => {
-    console.log("Deleting account...");
-    // Implement account deletion logic here
-    setShowDeleteDialog(false);
-    // Redirect to login page
-    // router.push('/login');
-  };
-
   const navigateToPersonalData = () => {
     navigate("/settings/personal-data");
   };
@@ -125,10 +106,7 @@ export default function SettingsBlock() {
             Выйти из аккаунта
           </button>
 
-          <button
-            onClick={() => setShowDeleteDialog(true)}
-            className="w-full py-3 px-4 rounded-xl flex items-center justify-center bg-red-400 text-white font-medium"
-          >
+          <button className="w-full py-3 px-4 rounded-xl flex items-center justify-center bg-red-400 text-white font-medium">
             <Trash2 size={18} className="mr-2" />
             Удалить аккаунт
           </button>

@@ -1,4 +1,5 @@
 export interface Ad {
+  key?: number;
   id: number;
   title: string;
   image: string;
@@ -6,16 +7,24 @@ export interface Ad {
   date: string;
 }
 
-export const AnnouncementCard = ({ ad }: { ad?: Ad }) => {
-  if (!ad) {
+export const AnnouncementCard = ({
+  ad,
+  onClick,
+}: {
+  ad?: Ad;
+  onClick?: (ad: Ad) => void;
+}) => {
+  if (!ad)
     return <div className="text-red-500">Ошибка: объявление не найдено</div>;
-  }
 
   const statusColor =
     ad.status === "open" ? "var(--color-secondary, #7bc394)" : "#f87171";
 
   return (
-    <article className="rounded-xl p-3 bg-[#EFF3FC] flex items-center gap-3">
+    <article
+      onClick={() => onClick?.(ad)}
+      className="rounded-xl p-3 bg-[#EFF3FC] flex items-center gap-3 cursor-pointer"
+    >
       <img
         src={ad.image || "/placeholder.svg"}
         alt={`Изображение объявления: ${ad.title}`}

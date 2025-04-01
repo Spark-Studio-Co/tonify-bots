@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { ITelegramUser, IWebApp } from "../types/types";
-import { useRegisterUser } from "@/entities/auth/hooks/mutations/use-register.mutation";
-import { useAuthData } from "@/entities/auth/store/use-auth.store";
+// import { useRegisterUser } from "@/entities/auth/hooks/mutations/use-register.mutation";
+// import { useAuthData } from "@/entities/auth/store/use-auth.store";
 import { useExpandView } from "../hooks/useExpandView";
 
 export interface ITelegramContext {
@@ -57,9 +57,9 @@ export const TelegramProvider = ({
           return;
         }
 
-        const userData = {
-          telegramUsername: telegramUser.username || telegramUser.id,
-        };
+        // const userData = {
+        //   telegramUsername: telegramUser.username || telegramUser.id,
+        // };
 
         console.log("🔄 Authenticating user...");
         // const response = await register(userData as any);

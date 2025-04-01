@@ -5,13 +5,12 @@ import { LockKeyhole } from "lucide-react";
 import { Input } from "@/shared/ui/input/input";
 import { Button } from "@/shared/ui/button/button";
 import { useLoginUser } from "@/entities/auth/hooks/mutations/use-login.mutation";
-import { useTelegram } from "@/shared/layouts/telegram-provider";
 import { useNavigate } from "react-router-dom";
+import WebApp from "@twa-dev/sdk";
 
 export default function LoginBlock() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { webApp } = useTelegram();
   const navigate = useNavigate();
 
   const { mutate: login, isPending: isLoading } = useLoginUser();
@@ -26,10 +25,11 @@ export default function LoginBlock() {
 
     setError("");
 
-    console.log(webApp?.initDataUnsafe.user.username);
-
     login(
-      { telegramUsername: webApp?.initDataUnsafe.user.username, password },
+      {
+        telegramUsername: WebApp!.initDataUnsafe!.user!.username || "",
+        password,
+      },
       {
         onSuccess: (data) => {
           localStorage.setItem("accessToken", data.accessToken);

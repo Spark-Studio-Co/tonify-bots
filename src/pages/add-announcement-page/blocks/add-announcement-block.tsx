@@ -14,7 +14,7 @@ export const AddAnnouncementBlock = () => {
     scheduledDate: "",
     scheduledTime: "",
     telegramUsername: "",
-    targetChats: [] as string[],
+    categories: [] as string[],
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -70,26 +70,26 @@ export const AddAnnouncementBlock = () => {
 
   const handleChatToggle = (chatId: string) => {
     setFormData((prev) => {
-      const isSelected = prev.targetChats.includes(chatId);
+      const isSelected = prev.categories.includes(chatId);
 
       if (isSelected) {
         return {
           ...prev,
-          targetChats: prev.targetChats.filter((id) => id !== chatId),
+          categories: prev.categories.filter((id) => id !== chatId),
         };
       } else {
         return {
           ...prev,
-          targetChats: [...prev.targetChats, chatId],
+          categories: [...prev.categories, chatId],
         };
       }
     });
 
     // Clear error when user selects chats
-    if (errors.targetChats) {
+    if (errors.categories) {
       setErrors((prev) => {
         const newErrors = { ...prev };
-        delete newErrors.targetChats;
+        delete newErrors.categories;
         return newErrors;
       });
     }
@@ -106,8 +106,8 @@ export const AddAnnouncementBlock = () => {
       newErrors.description = "Введите текст объявления";
     }
 
-    if (formData.targetChats.length === 0) {
-      newErrors.targetChats = "Выберите хотя бы один чат";
+    if (formData.categories.length === 0) {
+      newErrors.categories = "Выберите хотя бы один чат";
     }
 
     setErrors(newErrors);
@@ -118,14 +118,19 @@ export const AddAnnouncementBlock = () => {
     e.preventDefault();
 
     if (!validateForm()) return;
+    const hasSchedule = formData.scheduledDate && formData.scheduledTime;
 
     const payload = {
-      ...formData,
-      scheduledAt:
-        formData.scheduledDate && formData.scheduledTime
-          ? new Date(`${formData.scheduledDate}T${formData.scheduledTime}`)
-          : null,
-      telegramUsername: WebApp!.initDataUnsafe!.user!.username || "",
+      name: formData.name,
+      description: formData.description,
+      imageUrl: formData.imageUrl,
+      telegramUsername: WebApp.initDataUnsafe.user?.username || "",
+      categories: formData.categories,
+      ...(hasSchedule && {
+        scheduledAt: new Date(
+          `${formData.scheduledDate}T${formData.scheduledTime}`
+        ).toISOString(),
+      }),
     };
 
     addAnnouncement(payload as any);
@@ -247,11 +252,11 @@ export const AddAnnouncementBlock = () => {
                   Выберите категории*
                 </h3>
                 <span className="text-sm text-gray-500">
-                  Выбрано: {formData.targetChats.length}
+                  Выбрано: {formData.categories.length}
                 </span>
               </div>
-              {errors.targetChats && (
-                <p className="text-sm text-red-500">{errors.targetChats}</p>
+              {errors.categories && (
+                <p className="text-sm text-red-500">{errors.categories}</p>
               )}
               <div className="space-y-2">
                 {availableChats.map((chat) => (
@@ -259,7 +264,7 @@ export const AddAnnouncementBlock = () => {
                     key={chat.id}
                     onClick={() => handleChatToggle(chat.id)}
                     className={`p-3 rounded-lg border cursor-pointer transition-all ${
-                      formData.targetChats.includes(chat.id)
+                      formData.categories.includes(chat.id)
                         ? "border-blue-500 bg-blue-50"
                         : "border-gray-200 hover:border-blue-300"
                     }`}
@@ -269,7 +274,7 @@ export const AddAnnouncementBlock = () => {
                         <Users size={18} className="text-gray-500 mr-2" />
                         <span className="text-gray-900">{chat.name}</span>
                       </div>
-                      {formData.targetChats.includes(chat.id) && (
+                      {formData.categories.includes(chat.id) && (
                         <div className="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center">
                           <Check size={14} className="text-white" />
                         </div>

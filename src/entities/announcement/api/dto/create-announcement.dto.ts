@@ -5,4 +5,5 @@ export interface ICreateAnnouncementDTO {
   imageUrl: string;
   price?: number;
   categories: string[];
+  telegramUsername: string;
 }

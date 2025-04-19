@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import WebApp from "@twa-dev/sdk";
 
 export default function LoginBlock() {
-  const [password, setPassword] = useState("");
+  const [pin, setPin] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -16,7 +16,7 @@ export default function LoginBlock() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!password) {
+    if (!pin) {
       setError("Пожалуйста, заполните все поля");
       return;
     }
@@ -26,7 +26,7 @@ export default function LoginBlock() {
     login(
       {
         telegramUsername: WebApp!.initDataUnsafe!.user!.username || "",
-        password,
+        pin,
       },
       {
         onSuccess: (data) => {
@@ -53,21 +53,21 @@ export default function LoginBlock() {
               Вход в аккаунт
             </h2>
             <p className="text-center text-sm max-w-xs text-[--color-dark] opacity-70">
-              Введите ваш пароль для входа в систему
+              Введите ваш пинкод для входа в систему
             </p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-4">
               <Input
-                id="password"
+                id="pin"
                 type="password"
-                label="Пароль"
-                placeholder="Введите ваш пароль"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                label="Пинкод"
+                placeholder="Введите ваш пинкод"
+                value={pin}
+                onChange={(e) => setPin(e.target.value)}
                 className={`bg-white border-2 h-14 px-4 transition-all duration-200 ${
-                  password
+                  pin
                     ? "border-[rgba(98,127,254,0.3)] shadow-[0_2px_8px_rgba(98,127,254,0.15)] -translate-y-0.5"
                     : "border-opacity-30"
                 } focus:border-[--color-main]`}

@@ -35,14 +35,14 @@ export const OnboardingThirdBlock = () => {
       </div>
       <Button
         text="Продолжить"
-        onClick={() => navigate("/login")}
+        onClick={() => navigate("/set-pin")}
         className="mt-[111px]"
       />
       <Button
         text="Пропустить"
         className="mt-4"
         variant="secondary"
-        onClick={() => navigate("/login")}
+        onClick={() => navigate("/set-pin")}
       />
     </>
   );

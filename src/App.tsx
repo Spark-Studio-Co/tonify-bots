@@ -12,6 +12,7 @@ import SettingsPage from "./pages/settings-page/settings-page";
 import AddAnnouncementPage from "./pages/add-announcement-page/add-announcement-page";
 import { AddChatPage } from "./pages/add-chat-page/add-chat-page";
 import { LoginPage } from "./pages/login-page/login-page";
+import {SetPin} from "@/pages/set-pin/set-pin.tsx";
 
 const pageVariants = {
   initial: { opacity: 0, x: -50 },
@@ -77,6 +78,19 @@ const AnimatedRoutes = () => {
             </motion.div>
           }
         />
+          <Route
+              path="/set-pin"
+              element={
+                  <motion.div
+                      variants={pageVariants}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                  >
+                      <SetPin />
+                  </motion.div>
+              }
+          />
         <Route
           path="/home"
           element={

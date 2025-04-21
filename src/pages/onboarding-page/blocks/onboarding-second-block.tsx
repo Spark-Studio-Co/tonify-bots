@@ -44,7 +44,7 @@ export const OnboardingSecondBlock = () => {
         text="Пропустить"
         className="mt-4"
         variant="secondary"
-        onClick={() => navigate("/login")}
+        onClick={() => navigate("/set-pin")}
       />
     </>
   );

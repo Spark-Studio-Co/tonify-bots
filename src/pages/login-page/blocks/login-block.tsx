@@ -35,10 +35,11 @@ export default function LoginBlock() {
         },
         onError: (err: any) => {
           console.error("Login error:", err);
-          setError("Ошибка входа. Проверьте данные и попробуйте снова.");
+          setError("Ошибка входа. Проверьте данные и попробуйте снова." + err );
         },
       }
     );
+
   };
 
   return (

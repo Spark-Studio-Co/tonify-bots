@@ -10,6 +10,6 @@ export const loginUser = async (data: {
   userId: number;
 }> => {
   const response = await apiClient.post("/auth/login-pin", data);
-
+  console.log(response.data);
   return response.data;
 };

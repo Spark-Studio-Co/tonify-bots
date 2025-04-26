@@ -1,8 +1,8 @@
-import { useEffect } from "react";
-import WebApp from "@twa-dev/sdk";
+import { useEffect } from "react"
+import WebApp from "@twa-dev/sdk"
 
 export const useExpandView = () => {
   useEffect(() => {
-    WebApp.expand();
-  }, []);
-};
+    WebApp.expand()
+  }, [])
+}

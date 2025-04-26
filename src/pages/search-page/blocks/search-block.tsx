@@ -1,11 +1,13 @@
-import { useSearchStore } from "@/entities/search/model/use-search-store";
-import FilterPanel from "@/entities/search/ui/filter-panel";
-import FilterToggle from "@/entities/search/ui/filter-toggle";
-import SearchBar from "@/entities/search/ui/search-bar";
-import SortControls, { SortOption } from "@/entities/search/ui/sort-controlts";
-import SearchResults from "@/widgets/search-results/search-results";
-import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+"use client"
+
+import { useSearchStore } from "@/entities/search/model/use-search-store"
+import FilterPanel from "@/entities/search/ui/filter-panel"
+import FilterToggle from "@/entities/search/ui/filter-toggle"
+import SearchBar from "@/entities/search/ui/search-bar"
+import SortControls, { type SortOption } from "@/entities/search/ui/sort-controlts"
+import SearchResults from "@/widgets/search-results/search-results"
+import { AnimatePresence, motion } from "framer-motion"
+import { useEffect, useState } from "react"
 
 export default function SearchBlock() {
   const {
@@ -20,100 +22,81 @@ export default function SearchBlock() {
     performSearch,
     clearRecentSearches,
     addToRecentSearches,
-  } = useSearchStore();
+  } = useSearchStore()
 
-  const [showFilters, setShowFilters] = useState(false);
+  const [showFilters, setShowFilters] = useState(false)
 
   // Categories for filter
-  const categories = [
-    "all",
-    "Транспорт",
-    "Недвижимость",
-    "Электроника",
-    "Услуги",
-    "Мебель",
-    "Животные",
-  ];
+  const categories = ["all", "Транспорт", "Недвижимость", "Электроника", "Услуги", "Мебель", "Животные"]
 
   // Locations for filter
-  const locations = [
-    "all",
-    "Москва",
-    "Санкт-Петербург",
-    "Екатеринбург",
-    "Казань",
-    "Новосибирск",
-    "Онлайн",
-  ];
+  const locations = ["all", "Москва", "Санкт-Петербург", "Екатеринбург", "Казань", "Новосибирск", "Онлайн"]
 
   // Perform search when component mounts
   useEffect(() => {
-    performSearch();
-  }, [performSearch]);
+    performSearch()
+  }, [performSearch])
 
   // Handle search submit
   const handleSearch = () => {
     if (searchQuery.trim()) {
-      addToRecentSearches(searchQuery);
+      addToRecentSearches(searchQuery)
     }
-    performSearch();
-  };
+    performSearch()
+  }
 
   // Handle recent search click
   const handleRecentSearchClick = (query: string) => {
-    setSearchQuery(query);
-    performSearch();
-  };
+    setSearchQuery(query)
+    performSearch()
+  }
 
   // Toggle sort order
   const handleSortOrderToggle = () => {
-    updateFilter("sortOrder", filters.sortOrder === "asc" ? "desc" : "asc");
-    performSearch();
-  };
+    updateFilter("sortOrder", filters.sortOrder === "asc" ? "desc" : "asc")
+    performSearch()
+  }
 
   // Handle sort by change
   const handleSortByChange = (sortBy: SortOption) => {
-    updateFilter("sortBy", sortBy);
-    performSearch();
-  };
+    updateFilter("sortBy", sortBy)
+    performSearch()
+  }
 
   // Handle filter change
-  const handleFilterChange = <K extends keyof typeof filters>(
-    filterName: K,
-    value: (typeof filters)[K]
-  ) => {
-    updateFilter(filterName, value);
-    performSearch();
-  };
+  const handleFilterChange = <K extends keyof typeof filters>(filterName: K, value: (typeof filters)[K]) => {
+    updateFilter(filterName, value)
+    performSearch()
+  }
 
   // Handle reset filters
   const handleResetFilters = () => {
-    resetFilters();
-    performSearch();
-  };
+    resetFilters()
+    performSearch()
+  }
 
   // Handle reset all
   const handleResetAll = () => {
-    resetFilters();
-    setSearchQuery("");
-    performSearch();
-  };
+    resetFilters()
+    setSearchQuery("")
+    performSearch()
+  }
 
   // Count active filters
   const countActiveFilters = () => {
-    let count = 0;
-    if (filters.category !== "all") count++;
-    if (filters.location !== "all") count++;
-    if (filters.status !== "all") count++;
-    if (filters.priceRange[0] > 0 || filters.priceRange[1] < 1000000) count++;
-    return count;
-  };
+    let count = 0
+    if (filters.category !== "all") count++
+    if (filters.location !== "all") count++
+    if (filters.status !== "all") count++
+    if (filters.priceRange[0] > 0 || filters.priceRange[1] < 1000000) count++
+    return count
+  }
 
   // Handle announcement click
   const handleAnnouncementClick = (announcement: any) => {
-    console.log("Announcement clicked:", announcement);
+    console.log("Announcement clicked:", announcement)
     // Navigate to announcement details or show modal
-  };
+  }
 
   return (
     <div className="flex flex-col w-full mt-8 min-h-screen">
@@ -180,5 +163,5 @@ export default function SearchBlock() {
         />
       </div>
     </div>
-  );
+  )
 }

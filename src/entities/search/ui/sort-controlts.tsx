@@ -1,14 +1,16 @@
-import { ArrowDown, ArrowUp } from "lucide-react";
+"use client"
 
-export type SortOption = "relevance" | "date" | "price";
-export type SortOrder = "asc" | "desc";
+import { ArrowDown, ArrowUp } from "lucide-react"
+
+export type SortOption = "relevance" | "date" | "price"
+export type SortOrder = "asc" | "desc"
 
 interface SortControlsProps {
-  sortBy: SortOption;
-  sortOrder: SortOrder;
-  onSortByChange: (sortBy: SortOption) => void;
-  onSortOrderToggle: () => void;
-  className?: string;
+  sortBy: SortOption
+  sortOrder: SortOrder
+  onSortByChange: (sortBy: SortOption) => void
+  onSortOrderToggle: () => void
+  className?: string
 }
 
 export default function SortControls({
@@ -43,5 +45,5 @@ export default function SortControls({
         )}
       </button>
     </div>
-  );
+  )
 }

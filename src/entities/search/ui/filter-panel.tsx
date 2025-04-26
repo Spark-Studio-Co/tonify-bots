@@ -1,20 +1,19 @@
+"use client"
+
 export interface FilterValues {
-  category: string;
-  priceRange: [number, number];
-  location: string;
-  status: string;
+  category: string
+  priceRange: [number, number]
+  location: string
+  status: string
 }
 
 interface FilterPanelProps {
-  filters: FilterValues;
-  onFilterChange: <K extends keyof FilterValues>(
-    filterName: K,
-    value: FilterValues[K]
-  ) => void;
-  onReset: () => void;
-  categories: string[];
-  locations: string[];
-  className?: string;
+  filters: FilterValues
+  onFilterChange: <K extends keyof FilterValues>(filterName: K, value: FilterValues[K]) => void
+  onReset: () => void
+  categories: string[]
+  locations: string[]
+  className?: string
 }
 
 export default function FilterPanel({
@@ -30,9 +29,7 @@ export default function FilterPanel({
       <div className="space-y-4">
         {/* Category Filter */}
         <div>
-          <label className="block text-sm font-medium mb-2 text-gray-700">
-            Категория
-          </label>
+          <label className="block text-sm font-medium mb-2 text-gray-700">Категория</label>
           <div className="flex flex-wrap gap-2">
             {categories.map((category) => (
               <button
@@ -40,15 +37,10 @@ export default function FilterPanel({
                 type="button"
                 onClick={() => onFilterChange("category", category)}
                 className={`py-1.5 px-3 rounded-lg text-sm ${
-                  filters.category === category
-                    ? "text-white"
-                    : "text-gray-700 bg-gray-100"
+                  filters.category === category ? "text-white" : "text-gray-700 bg-gray-100"
                 }`}
                 style={{
-                  backgroundColor:
-                    filters.category === category
-                      ? "var(--color-main, #627ffe)"
-                      : undefined,
+                  backgroundColor: filters.category === category ? "var(--color-main, #627ffe)" : undefined,
                 }}
               >
                 {category === "all" ? "Все категории" : category}
@@ -57,9 +49,7 @@ export default function FilterPanel({
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium mb-2 text-gray-700">
-            Местоположение
-          </label>
+          <label className="block text-sm font-medium mb-2 text-gray-700">Местоположение</label>
           <select
             value={filters.location}
             onChange={(e) => onFilterChange("location", e.target.value)}
@@ -88,5 +78,5 @@ export default function FilterPanel({
         </div>
       </div>
     </div>
-  );
+  )
 }

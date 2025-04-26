@@ -1,11 +1,11 @@
-import { create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
+import { create } from "zustand"
+import { createJSONStorage, persist } from "zustand/middleware"
 
 interface IProfileStore {
-  isChatOwner: boolean;
-  isPromoter: boolean;
-  setIsChatOwner: () => void;
-  setIsPromoter: () => void;
+  isChatOwner: boolean
+  isPromoter: boolean
+  setIsChatOwner: () => void
+  setIsPromoter: () => void
 }
 
 export const useProfileStore = create<IProfileStore>()(
@@ -23,6 +23,6 @@ export const useProfileStore = create<IProfileStore>()(
         isChatOwner: state.isChatOwner,
         isPromoter: state.isPromoter,
       }), // 🔄 Persist both
-    }
-  )
-);
+    },
+  ),
+)

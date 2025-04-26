@@ -1,18 +1,20 @@
-import { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
+"use client"
+
+import { useState, useRef, useEffect } from "react"
+import { motion } from "framer-motion"
 
 interface ViewsChartProps {
   data: {
-    date: string;
-    views: number;
-  }[];
-  className?: string;
+    date: string
+    views: number
+  }[]
+  className?: string
 }
 
 export default function ViewsChart({ data, className = "" }: ViewsChartProps) {
-  const [hoveredPoint, setHoveredPoint] = useState<number | null>(null);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const chartRef = useRef<HTMLDivElement>(null);
+  const [hoveredPoint, setHoveredPoint] = useState<number | null>(null)
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
+  const chartRef = useRef<HTMLDivElement>(null)
 
   // Update dimensions on resize
   useEffect(() => {
@@ -21,42 +23,36 @@ export default function ViewsChart({ data, className = "" }: ViewsChartProps) {
         setDimensions({
           width: chartRef.current.clientWidth,
           height: chartRef.current.clientHeight,
-        });
+        })
       }
-    };
+    }
 
-    updateDimensions();
-    window.addEventListener("resize", updateDimensions);
+    updateDimensions()
+    window.addEventListener("resize", updateDimensions)
 
     return () => {
-      window.removeEventListener("resize", updateDimensions);
-    };
-  }, []);
+      window.removeEventListener("resize", updateDimensions)
+    }
+  }, [])
 
   // Find min and max values for scaling
-  const minValue = Math.min(...data.map((d) => d.views));
-  const maxValue = Math.max(...data.map((d) => d.views));
-  const padding = { top: 20, right: 20, bottom: 30, left: 40 };
+  const minValue = Math.min(...data.map((d) => d.views))
+  const maxValue = Math.max(...data.map((d) => d.views))
+  const padding = { top: 20, right: 20, bottom: 30, left: 40 }
 
   // Calculate chart area dimensions
-  const chartWidth = dimensions.width - padding.left - padding.right;
-  const chartHeight = dimensions.height - padding.top - padding.bottom;
+  const chartWidth = dimensions.width - padding.left - padding.right
+  const chartHeight = dimensions.height - padding.top - padding.bottom
 
   // Generate points for the line
   const points = data.map((d, i) => {
-    const x = padding.left + (i / (data.length - 1)) * chartWidth;
-    const y =
-      padding.top +
-      chartHeight -
-      ((d.views - minValue) / (maxValue - minValue || 1)) * chartHeight;
-    return { x, y, value: d.views, date: d.date };
-  });
+    const x = padding.left + (i / (data.length - 1)) * chartWidth
+    const y = padding.top + chartHeight - ((d.views - minValue) / (maxValue - minValue || 1)) * chartHeight
+    return { x, y, value: d.views, date: d.date }
+  })
 
   // Generate path for the line
-  const linePath =
-    points.length > 0
-      ? `M ${points.map((p) => `${p.x},${p.y}`).join(" L ")}`
-      : "";
+  const linePath = points.length > 0 ? `M ${points.map((p) => `${p.x},${p.y}`).join(" L ")}` : ""
 
   // Generate path for the area under the line
   const areaPath =
@@ -64,16 +60,16 @@ export default function ViewsChart({ data, className = "" }: ViewsChartProps) {
       ? `${linePath} L ${points[points.length - 1].x},${
           padding.top + chartHeight
         } L ${points[0].x},${padding.top + chartHeight} Z`
-      : "";
+      : ""
 
   // Format date for tooltip
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
+    const date = new Date(dateString)
     return date.toLocaleDateString("ru-RU", {
       day: "numeric",
       month: "long",
-    });
-  };
+    })
+  }
 
   return (
     <motion.div
@@ -83,22 +79,15 @@ export default function ViewsChart({ data, className = "" }: ViewsChartProps) {
       transition={{ delay: 0.5 }}
       className={`bg-white rounded-xl p-4 ${className}`}
     >
-      <h3
-        className="text-lg font-semibold mb-4"
-        style={{ color: "var(--color-dark, #121826)" }}
-      >
+      <h3 className="text-lg font-semibold mb-4" style={{ color: "var(--color-dark, #121826)" }}>
         Просмотры ваших объявлений
       </h3>
 
       <div className="h-[250px] relative">
-        <svg
-          width="100%"
-          height="100%"
-          viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
-        >
+        <svg width="100%" height="100%" viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}>
           {/* Y-axis grid lines */}
           {Array.from({ length: 5 }).map((_, i) => {
-            const y = padding.top + (i / 4) * chartHeight;
+            const y = padding.top + (i / 4) * chartHeight
             return (
               <line
                 key={`grid-y-${i}`}
@@ -109,7 +98,7 @@ export default function ViewsChart({ data, className = "" }: ViewsChartProps) {
                 stroke="rgba(0, 0, 0, 0.05)"
                 strokeWidth="1"
               />
-            );
+            )
           })}
 
           {/* Area under the line */}
@@ -165,7 +154,7 @@ export default function ViewsChart({ data, className = "" }: ViewsChartProps) {
           {points
             .filter((_, i) => i % Math.ceil(points.length / 7) === 0)
             .map((point, i) => {
-              const date = new Date(point.date);
+              const date = new Date(point.date)
               return (
                 <text
                   key={`x-label-${i}`}
@@ -177,7 +166,7 @@ export default function ViewsChart({ data, className = "" }: ViewsChartProps) {
                 >
                   {date.getDate()}
                 </text>
-              );
+              )
             })}
 
           {/* Tooltip */}
@@ -215,5 +204,5 @@ export default function ViewsChart({ data, className = "" }: ViewsChartProps) {
         </svg>
       </div>
     </motion.div>
-  );
+  )
 }

@@ -1,16 +1,18 @@
-import { BalanceTab } from "../../balance/balance-tab";
-import { ArrowLeftRight } from "lucide-react";
-import { useProfileStore } from "../model/use-profile-store";
-import WebApp from "@twa-dev/sdk";
+"use client"
+
+import { BalanceTab } from "../../balance/balance-tab"
+import { ArrowLeftRight } from "lucide-react"
+import { useProfileStore } from "../model/use-profile-store"
+import WebApp from "@twa-dev/sdk"
 
 export default function ChatOwnerProfileCard() {
-  const { setIsPromoter, isPromoter } = useProfileStore();
+  const { setIsPromoter, isPromoter } = useProfileStore()
 
   const handleOwner = () => {
-    console.log("clicked!");
-    setIsPromoter();
-    console.log(isPromoter);
-  };
+    console.log("clicked!")
+    setIsPromoter()
+    console.log(isPromoter)
+  }
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-4 flex items-center gap-4">
@@ -23,13 +25,8 @@ export default function ChatOwnerProfileCard() {
       </div>
       <div className="flex flex-row justify-between w-full">
         <div className="flex flex-col items-start">
-          <h2 className="font-bold text-dark text-lg">
-            {WebApp.initDataUnsafe.user?.username || ""}
-          </h2>
-          <div
-            className="flex items-center gap-2 cursor-pointer"
-            onClick={handleOwner}
-          >
+          <h2 className="font-bold text-dark text-lg">{WebApp.initDataUnsafe.user?.username || ""}</h2>
+          <div className="flex items-center gap-2 cursor-pointer" onClick={handleOwner}>
             <p className="text-sm text-main">Владелец чата</p>
             <ArrowLeftRight size={12} color="#7bc394" />
           </div>
@@ -39,5 +36,5 @@ export default function ChatOwnerProfileCard() {
         </div>
       </div>
     </div>
-  );
+  )
 }

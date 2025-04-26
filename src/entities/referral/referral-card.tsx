@@ -1,22 +1,21 @@
-import { Copy, Info } from "lucide-react";
-import { useState } from "react";
+"use client"
+
+import { Copy, Info } from "lucide-react"
+import { useState } from "react"
 
 interface ReferralCardProps {
-  referralLink: string;
-  onInfoClick?: () => void;
+  referralLink: string
+  onInfoClick?: () => void
 }
 
-export default function ReferralCard({
-  referralLink,
-  onInfoClick,
-}: ReferralCardProps) {
-  const [copied, setCopied] = useState(false);
+export default function ReferralCard({ referralLink, onInfoClick }: ReferralCardProps) {
+  const [copied, setCopied] = useState(false)
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(referralLink);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+    navigator.clipboard.writeText(referralLink)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-4 mt-4">
@@ -40,18 +39,14 @@ export default function ReferralCard({
         />
         <button
           onClick={handleCopy}
-          className={`p-2 rounded-full transition-colors ${
-            copied ? "text-secondary" : "text-main"
-          }`}
+          className={`p-2 rounded-full transition-colors ${copied ? "text-secondary" : "text-main"}`}
           aria-label="Copy referral link"
         >
           <Copy size={16} />
         </button>
       </div>
 
-      {copied && (
-        <p className="text-xs mt-1 text-secondary">Ссылка скопирована!</p>
-      )}
+      {copied && <p className="text-xs mt-1 text-secondary">Ссылка скопирована!</p>}
     </div>
-  );
+  )
 }

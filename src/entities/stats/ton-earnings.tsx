@@ -1,23 +1,18 @@
-import { motion } from "framer-motion";
-import TONCounter from "./ton-counter";
+"use client"
+
+import { motion } from "framer-motion"
+import TONCounter from "./ton-counter"
 
 interface TONEarningsGridProps {
-  values: number[];
-  title: string;
-  className?: string;
+  values: number[]
+  title: string
+  className?: string
 }
 
-export default function TONEarningsGrid({
-  values,
-  title,
-  className = "",
-}: TONEarningsGridProps) {
+export default function TONEarningsGrid({ values, title, className = "" }: TONEarningsGridProps) {
   return (
     <div className={className}>
-      <h2
-        className="text-lg font-semibold mb-3"
-        style={{ color: "var(--color-dark, #121826)" }}
-      >
+      <h2 className="text-lg font-semibold mb-3" style={{ color: "var(--color-dark, #121826)" }}>
         {title}
       </h2>
 
@@ -62,5 +57,5 @@ export default function TONEarningsGrid({
         ))}
       </div>
     </div>
-  );
+  )
 }

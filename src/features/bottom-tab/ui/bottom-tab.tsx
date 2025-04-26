@@ -1,34 +1,34 @@
-import { motion } from "framer-motion";
-import { Home, Plus, Search, Settings, User } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { useNavStore } from "../model/use-navigation-store";
-import { useProfileStore } from "@/entities/profile/model/use-profile-store";
+"use client"
+
+import { motion } from "framer-motion"
+import { Home, Plus, Search, Settings, User } from "lucide-react"
+import { useNavigate } from "react-router-dom"
+import { useNavStore } from "../model/use-navigation-store"
+import { useProfileStore } from "@/entities/profile/model/use-profile-store"
 
 export default function BottomTab() {
-  const { activeTab, setActiveTab } = useNavStore();
-  const { isChatOwner } = useProfileStore();
-  const navigate = useNavigate();
+  const { activeTab, setActiveTab } = useNavStore()
+  const { isChatOwner } = useProfileStore()
+  const navigate = useNavigate()
 
   const tabs = [
     { id: "home", icon: Home, label: "Главная" },
     { id: "search", icon: Search, label: "Поиск" },
     { id: "profile", icon: User, label: "Профиль" },
     { id: "settings", icon: Settings, label: "Настройки" },
-  ];
+  ]
 
   const handleNavigate = (id: string) => {
-    setActiveTab(id);
-    navigate(`/${id}`);
-  };
+    setActiveTab(id)
+    navigate(`/${id}`)
+  }
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-20">
       {/* FAB Button */}
       <div
         className="absolute left-1/2 -translate-x-1/2 -top-7 z-10"
-        onClick={() =>
-          navigate(isChatOwner ? "/add-chat" : "/add-announcement")
-        }
+        onClick={() => navigate(isChatOwner ? "/add-chat" : "/add-announcement")}
       >
         <motion.button
           className="w-14 h-14 rounded-full flex items-center justify-center"
@@ -66,17 +66,13 @@ export default function BottomTab() {
         {/* Navigation Items */}
         <div className="relative h-full max-w-md mx-auto px-6 flex justify-between items-center">
           {tabs.map((tab, index) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
+            const Icon = tab.icon
+            const isActive = activeTab === tab.id
 
             // Add extra margin for center gap
-            const isLeftOfCenter = index === 1;
-            const isRightOfCenter = index === 2;
-            const marginClass = isLeftOfCenter
-              ? "mr-16"
-              : isRightOfCenter
-              ? "ml-16"
-              : "";
+            const isLeftOfCenter = index === 1
+            const isRightOfCenter = index === 2
+            const marginClass = isLeftOfCenter ? "mr-16" : isRightOfCenter ? "ml-16" : ""
 
             return (
               <motion.button
@@ -89,17 +85,15 @@ export default function BottomTab() {
                   size={24}
                   strokeWidth={1.5}
                   style={{
-                    color: isActive
-                      ? "var(--color-main, #627ffe)"
-                      : "var(--color-dark, #121826)",
+                    color: isActive ? "var(--color-main, #627ffe)" : "var(--color-dark, #121826)",
                     opacity: isActive ? 1 : 0.5,
                   }}
                 />
               </motion.button>
-            );
+            )
           })}
         </div>
       </div>
     </div>
-  );
+  )
 }

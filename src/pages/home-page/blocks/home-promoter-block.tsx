@@ -1,19 +1,21 @@
-import ReferralCard from "@/entities/referral/referral-card";
-import ActionButton from "@/shared/ui/action-button/action-button";
-import { PlusCircle, Wallet } from "lucide-react";
-import { useModalBalanceStore } from "@/entities/balance/store/use-modal-balance-store";
-import PromoterProfileCard from "@/entities/profile/ui/promoter-profile-tab";
-import { useNavigate } from "react-router-dom";
-import AnnouncementsList from "@/widgets/announcements-list/announcements-list";
+"use client"
+
+import ReferralCard from "@/entities/referral/referral-card"
+import ActionButton from "@/shared/ui/action-button/action-button"
+import { PlusCircle, Wallet } from "lucide-react"
+import { useModalBalanceStore } from "@/entities/balance/store/use-modal-balance-store"
+import PromoterProfileCard from "@/entities/profile/ui/promoter-profile-tab"
+import { useNavigate } from "react-router-dom"
+import AnnouncementsList from "@/widgets/announcements-list/announcements-list"
 
 export const HomePromoterBlock = () => {
-  const navigate = useNavigate();
-  const { openModal } = useModalBalanceStore();
+  const navigate = useNavigate()
+  const { openModal } = useModalBalanceStore()
 
   const handleManageBalance = () => {
-    openModal();
-    console.log("Manage balance clicked");
-  };
+    openModal()
+    console.log("Manage balance clicked")
+  }
 
   return (
     <div className="w-full flex flex-col min-h-screen ">
@@ -37,5 +39,5 @@ export const HomePromoterBlock = () => {
         <AnnouncementsList />
       </main>
     </div>
-  );
-};
+  )
+}

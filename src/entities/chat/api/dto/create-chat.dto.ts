@@ -1,7 +1,7 @@
 export interface ICreateChatDTO {
-  name: string;
-  link: string;
-  status: string;
-  imageUrl: string;
-  telegramUsername: string;
+  name: string
+  link: string
+  status: string
+  imageUrl: string
+  telegramUsername: string
 }

@@ -1,115 +1,114 @@
-import { useVerifyCode } from "@/entities/auth/hooks/mutations/use-verify-auth.mutation";
-import { Button } from "@/shared/ui/button/button";
-import { LockKeyhole, RefreshCw } from "lucide-react";
-import type React from "react";
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+"use client"
+
+import { useVerifyCode } from "@/entities/auth/hooks/mutations/use-verify-auth.mutation"
+import { Button } from "@/shared/ui/button/button"
+import { LockKeyhole, RefreshCw } from "lucide-react"
+import type React from "react"
+import { useEffect, useRef, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 export default function ConfirmationCodeBlock() {
-  const navigate = useNavigate();
-  const [code, setCode] = useState<string[]>(Array(5).fill(""));
-  const [timeLeft, setTimeLeft] = useState(60);
-  const [isResending, setIsResending] = useState(false);
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const { mutate } = useVerifyCode();
+  const navigate = useNavigate()
+  const [code, setCode] = useState<string[]>(Array(5).fill(""))
+  const [timeLeft, setTimeLeft] = useState(60)
+  const [isResending, setIsResending] = useState(false)
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([])
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
+  const { mutate } = useVerifyCode()
 
   useEffect(() => {
-    inputRefs.current = inputRefs.current.slice(0, 5);
+    inputRefs.current = inputRefs.current.slice(0, 5)
 
     // Start countdown timer
     timerRef.current = setInterval(() => {
-      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0))
+    }, 1000)
 
     // Focus first input on mount
     setTimeout(() => {
-      inputRefs.current[0]?.focus();
-    }, 100);
+      inputRefs.current[0]?.focus()
+    }, 100)
 
     return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, []);
+      if (timerRef.current) clearInterval(timerRef.current)
+    }
+  }, [])
 
   const handleChange = (index: number, value: string) => {
     // Only allow numbers
-    if (!/^\d*$/.test(value)) return;
+    if (!/^\d*$/.test(value)) return
 
-    const newCode = [...code];
+    const newCode = [...code]
     // Take only the last character if multiple are pasted
-    newCode[index] = value.slice(-1);
-    setCode(newCode);
+    newCode[index] = value.slice(-1)
+    setCode(newCode)
 
     // If value is entered and not the last box, move to next input
     if (value && index < 4) {
-      inputRefs.current[index + 1]?.focus();
+      inputRefs.current[index + 1]?.focus()
     }
-  };
+  }
 
-  const handleKeyDown = (
-    index: number,
-    e: React.KeyboardEvent<HTMLInputElement>
-  ) => {
+  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
     // If backspace is pressed and current input is empty, move to previous input
     if (e.key === "Backspace" && !code[index] && index > 0) {
-      inputRefs.current[index - 1]?.focus();
+      inputRefs.current[index - 1]?.focus()
     }
 
     // Arrow key navigation
     if (e.key === "ArrowLeft" && index > 0) {
-      e.preventDefault();
-      inputRefs.current[index - 1]?.focus();
+      e.preventDefault()
+      inputRefs.current[index - 1]?.focus()
     }
 
     if (e.key === "ArrowRight" && index < 4) {
-      e.preventDefault();
-      inputRefs.current[index + 1]?.focus();
+      e.preventDefault()
+      inputRefs.current[index + 1]?.focus()
     }
-  };
+  }
 
   const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    const pastedData = e.clipboardData.getData("text/plain").trim();
+    e.preventDefault()
+    const pastedData = e.clipboardData.getData("text/plain").trim()
 
     // If pasted data is a number and has the right length
     if (/^\d+$/.test(pastedData)) {
-      const digits = pastedData.split("").slice(0, 5);
-      const newCode = [...code];
+      const digits = pastedData.split("").slice(0, 5)
+      const newCode = [...code]
 
       digits.forEach((digit, index) => {
         if (index < 5) {
-          newCode[index] = digit;
+          newCode[index] = digit
         }
-      });
+      })
 
-      setCode(newCode);
+      setCode(newCode)
 
       // Focus the next empty input or the last one if all filled
-      const nextEmptyIndex = newCode.findIndex((val) => !val);
+      const nextEmptyIndex = newCode.findIndex((val) => !val)
       if (nextEmptyIndex !== -1) {
-        inputRefs.current[nextEmptyIndex]?.focus();
+        inputRefs.current[nextEmptyIndex]?.focus()
       } else {
-        inputRefs.current[4]?.focus();
+        inputRefs.current[4]?.focus()
       }
     }
-  };
+  }
 
   const handleResendCode = () => {
-    if (timeLeft > 0) return;
+    if (timeLeft > 0) return
 
-    setIsResending(true);
+    setIsResending(true)
     // Simulate API call to resend code
     setTimeout(() => {
-      setTimeLeft(60);
-      setIsResending(false);
-      setCode(Array(5).fill(""));
-      inputRefs.current[0]?.focus();
-    }, 1500);
-  };
+      setTimeLeft(60)
+      setIsResending(false)
+      setCode(Array(5).fill(""))
+      inputRefs.current[0]?.focus()
+    }, 1500)
+  }
 
   const handleVerify = () => {
-    const fullCode = code.join("");
+    const fullCode = code.join("")
     if (fullCode.length === 5) {
       mutate(
         {
@@ -118,18 +117,18 @@ export default function ConfirmationCodeBlock() {
         },
         {
           onSuccess: () => {
-            navigate("/home");
+            navigate("/home")
           },
           onError: (err: any) => {
-            console.error("❌ Verification error:", err);
-            alert("Неверный код. Попробуйте снова.");
+            console.error("❌ Verification error:", err)
+            alert("Неверный код. Попробуйте снова.")
           },
-        }
-      );
+        },
+      )
     }
-  };
+  }
 
-  const isCodeComplete = code.every((digit) => digit !== "");
+  const isCodeComplete = code.every((digit) => digit !== "")
 
   return (
     <div className="w-full max-w-md mx-auto">
@@ -150,18 +149,11 @@ export default function ConfirmationCodeBlock() {
           >
             <LockKeyhole size={28} color="white" />
           </div>
-          <h2
-            className="text-center text-2xl font-bold mb-2"
-            style={{ color: "var(--color-dark, #121826)" }}
-          >
+          <h2 className="text-center text-2xl font-bold mb-2" style={{ color: "var(--color-dark, #121826)" }}>
             Подтверждение
           </h2>
-          <p
-            className="text-center text-sm max-w-xs"
-            style={{ color: "var(--color-dark, #121826)", opacity: 0.7 }}
-          >
-            Мы отправили код подтверждения на ваш номер телефона. Пожалуйста,
-            введите его ниже.
+          <p className="text-center text-sm max-w-xs" style={{ color: "var(--color-dark, #121826)", opacity: 0.7 }}>
+            Мы отправили код подтверждения на ваш номер телефона. Пожалуйста, введите его ниже.
           </p>
         </div>
         <div className="flex justify-center gap-3 mb-8">
@@ -180,18 +172,10 @@ export default function ConfirmationCodeBlock() {
                   onPaste={index === 0 ? handlePaste : undefined}
                   className="w-14 h-14 sm:w-16 sm:h-16 text-center text-xl font-bold rounded-lg focus:outline-none transition-all duration-200"
                   style={{
-                    backgroundColor: code[index]
-                      ? "white"
-                      : "var(--color-main-light, #eff3fc)",
-                    border: `2px solid ${
-                      code[index]
-                        ? "var(--color-main, #627ffe)"
-                        : "rgba(98, 127, 254, 0.3)"
-                    }`,
+                    backgroundColor: code[index] ? "white" : "var(--color-main-light, #eff3fc)",
+                    border: `2px solid ${code[index] ? "var(--color-main, #627ffe)" : "rgba(98, 127, 254, 0.3)"}`,
                     color: "var(--color-dark, #121826)",
-                    boxShadow: code[index]
-                      ? "0 2px 8px rgba(98, 127, 254, 0.15)"
-                      : "none",
+                    boxShadow: code[index] ? "0 2px 8px rgba(98, 127, 254, 0.15)" : "none",
                     transform: code[index] ? "translateY(-2px)" : "none",
                   }}
                   aria-label={`Digit ${index + 1} of confirmation code`}
@@ -210,21 +194,14 @@ export default function ConfirmationCodeBlock() {
             ))}
         </div>
         <div className="flex flex-col items-center gap-4">
-          <Button
-            text="Подтвердить"
-            onClick={handleVerify}
-            disabled={!isCodeComplete}
-          />
+          <Button text="Подтвердить" onClick={handleVerify} disabled={!isCodeComplete} />
           <div className="flex items-center mt-2">
             <button
               onClick={handleResendCode}
               disabled={timeLeft > 0 || isResending}
               className="flex items-center text-sm font-medium transition-all duration-200"
               style={{
-                color:
-                  timeLeft > 0
-                    ? "rgba(18, 24, 38, 0.5)"
-                    : "var(--color-main, #627ffe)",
+                color: timeLeft > 0 ? "rgba(18, 24, 38, 0.5)" : "var(--color-main, #627ffe)",
                 cursor: timeLeft > 0 ? "default" : "pointer",
               }}
             >
@@ -233,13 +210,11 @@ export default function ConfirmationCodeBlock() {
               ) : (
                 <RefreshCw size={14} className="mr-2" />
               )}
-              {timeLeft > 0
-                ? `Отправить повторно через ${timeLeft}с`
-                : "Отправить код повторно"}
+              {timeLeft > 0 ? `Отправить повторно через ${timeLeft}с` : "Отправить код повторно"}
             </button>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }

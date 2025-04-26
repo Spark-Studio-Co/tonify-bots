@@ -1,16 +1,16 @@
-import Modal from "@/shared/layouts/modal-layout";
-import { motion } from "framer-motion";
-import { Bot, Shield, ArrowRight } from "lucide-react";
-import { useInstructionModalStore } from "../store/use-instruction-modal.store";
+
+import Modal from "@/shared/layouts/modal-layout"
+import { motion } from "framer-motion"
+import { Bot, Shield, ArrowRight } from "lucide-react"
+import { useInstructionModalStore } from "../store/use-instruction-modal.store"
 
 export default function InstructionPopup() {
-  const { isModalOpen, closeModal } = useInstructionModalStore();
+  const { isModalOpen, closeModal } = useInstructionModalStore()
 
   const steps = [
     {
       title: "Добавьте бота в чат",
-      description:
-        "После создания чата добавьте бота @AdsTonify_bot в качестве участника",
+      description: "После создания чата добавьте бота @AdsTonify_bot в качестве участника",
       icon: <Bot size={24} className="text-white" />,
       color: "#627ffe",
     },
@@ -27,7 +27,7 @@ export default function InstructionPopup() {
       icon: <ArrowRight size={24} className="text-white" />,
       color: "#f59e0b",
     },
-  ];
+  ]
 
   return (
     <>
@@ -45,8 +45,7 @@ export default function InstructionPopup() {
             <div className="p-6">
               <div className="text-center mb-6">
                 <p className="text-gray-600">
-                  Для публикации объявлений в чате, необходимо добавить нашего
-                  бота и дать ему права администратора
+                  Для публикации объявлений в чате, необходимо добавить нашего бота и дать ему права администратора
                 </p>
               </div>
 
@@ -60,12 +59,8 @@ export default function InstructionPopup() {
                       {step.icon}
                     </div>
                     <div>
-                      <h3 className="font-medium text-gray-900 mb-1">
-                        {step.title}
-                      </h3>
-                      <p className="text-sm text-gray-600">
-                        {step.description}
-                      </p>
+                      <h3 className="font-medium text-gray-900 mb-1">{step.title}</h3>
+                      <p className="text-sm text-gray-600">{step.description}</p>
                     </div>
                   </div>
                 ))}
@@ -77,7 +72,7 @@ export default function InstructionPopup() {
                 </div>
                 <button
                   onClick={() => {
-                    navigator.clipboard.writeText("@TonifyBot");
+                    navigator.clipboard.writeText("@TonifyBot")
                   }}
                   className="text-sm text-blue-500 hover:text-blue-700"
                 >
@@ -98,5 +93,5 @@ export default function InstructionPopup() {
         </motion.div>
       </Modal>
     </>
-  );
+  )
 }

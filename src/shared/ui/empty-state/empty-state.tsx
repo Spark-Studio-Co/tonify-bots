@@ -1,11 +1,12 @@
-import { Search } from "lucide-react";
+
+import { Search } from "lucide-react"
 
 interface EmptyStateProps {
-  title?: string;
-  message?: string;
-  onReset?: () => void;
-  resetButtonText?: string;
-  className?: string;
+  title?: string
+  message?: string
+  onReset?: () => void
+  resetButtonText?: string
+  className?: string
 }
 
 export default function EmptyState({
@@ -16,19 +17,14 @@ export default function EmptyState({
   className = "",
 }: EmptyStateProps) {
   return (
-    <div
-      className={`flex flex-col items-center justify-center py-12 text-center ${className}`}
-    >
+    <div className={`flex flex-col items-center justify-center py-12 text-center ${className}`}>
       <div
         className="w-16 h-16 rounded-full flex items-center justify-center mb-4"
         style={{ backgroundColor: "var(--color-main-light, #eff3fc)" }}
       >
         <Search size={24} style={{ color: "var(--color-main, #627ffe)" }} />
       </div>
-      <h3
-        className="text-lg font-medium mb-2"
-        style={{ color: "var(--color-dark, #121826)" }}
-      >
+      <h3 className="text-lg font-medium mb-2" style={{ color: "var(--color-dark, #121826)" }}>
         {title}
       </h3>
       <p className="text-gray-500 max-w-xs">{message}</p>
@@ -43,5 +39,5 @@ export default function EmptyState({
         </button>
       )}
     </div>
-  );
+  )
 }

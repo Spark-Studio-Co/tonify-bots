@@ -1,24 +1,22 @@
-import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
-import { useChats } from "@/entities/chat/hooks/queries/use-get-chats.queries";
+
+import { useEffect, useRef } from "react"
+import { motion } from "framer-motion"
+import { useChats } from "@/entities/chat/hooks/queries/use-get-chats.queries"
 
 export default function ChatsList() {
-  const filtersRef = useRef<HTMLDivElement>(null);
-  const { data: chats = [], isLoading, isError } = useChats();
+  const filtersRef = useRef<HTMLDivElement>(null)
+  const { data: chats = [], isLoading, isError } = useChats()
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        filtersRef.current &&
-        !filtersRef.current.contains(event.target as Node)
-      ) {
+      if (filtersRef.current && !filtersRef.current.contains(event.target as Node)) {
         // placeholder logic in case you bring back dropdowns later
       }
-    };
+    }
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
 
   return (
     <div className="mt-4">
@@ -45,41 +43,35 @@ export default function ChatsList() {
               }}
             >
               <h4 className="font-medium text-gray-900">{chat.name}</h4>
-              <p className="text-sm text-gray-500 mt-1">
-                {chat.lastMessage || "Нет сообщений"}
-              </p>
+              <p className="text-sm text-gray-500 mt-1">{chat.lastMessage || "Нет сообщений"}</p>
             </motion.div>
           ))
         ) : (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-8"
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-8">
             <div className="text-4xl mb-2">🔍</div>
             <p className="text-gray-500">Нет чатов</p>
           </motion.div>
         )}
       </div>
     </div>
-  );
+  )
 }
 
 function getCategoryColor(category: string): string {
   switch (category) {
     case "work":
-      return "#4f46e5";
+      return "#4f46e5"
     case "gaming":
-      return "#8b5cf6";
+      return "#8b5cf6"
     case "travel":
-      return "#3b82f6";
+      return "#3b82f6"
     case "books":
-      return "#10b981";
+      return "#10b981"
     case "sports":
-      return "#ef4444";
+      return "#ef4444"
     case "art":
-      return "#f59e0b";
+      return "#f59e0b"
     default:
-      return "#6b7280";
+      return "#6b7280"
   }
 }

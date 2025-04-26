@@ -1,15 +1,17 @@
-import type { ReactNode } from "react";
-import { motion } from "framer-motion";
-import { ChevronRight } from "lucide-react";
+"use client"
+
+import type { ReactNode } from "react"
+import { motion } from "framer-motion"
+import { ChevronRight } from "lucide-react"
 
 interface SettingsItemProps {
-  icon: ReactNode;
-  label: string;
-  onClick?: () => void;
-  rightElement?: ReactNode;
-  showChevron?: boolean;
-  className?: string;
-  divider?: boolean;
+  icon: ReactNode
+  label: string
+  onClick?: () => void
+  rightElement?: ReactNode
+  showChevron?: boolean
+  className?: string
+  divider?: boolean
 }
 
 export default function SettingsItem({
@@ -27,9 +29,7 @@ export default function SettingsItem({
       className={`${divider ? "border-b border-gray-100" : ""} ${className}`}
     >
       <div
-        className={`flex items-center justify-between py-3.5 px-4 ${
-          onClick ? "cursor-pointer" : ""
-        }`}
+        className={`flex items-center justify-between py-3.5 px-4 ${onClick ? "cursor-pointer" : ""}`}
         onClick={onClick}
       >
         <div className="flex items-center">
@@ -39,11 +39,9 @@ export default function SettingsItem({
 
         <div className="flex items-center">
           {rightElement}
-          {showChevron && onClick && (
-            <ChevronRight size={18} className="text-gray-400 ml-1" />
-          )}
+          {showChevron && onClick && <ChevronRight size={18} className="text-gray-400 ml-1" />}
         </div>
       </div>
     </motion.div>
-  );
+  )
 }

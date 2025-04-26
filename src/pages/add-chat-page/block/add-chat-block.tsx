@@ -1,33 +1,35 @@
-import type React from "react";
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Link, Search, ExternalLink, MessageCircle } from "lucide-react";
-import { useCreateChat } from "@/entities/chat/hooks/mutations/use-create-chat.mutation";
-import WebApp from "@twa-dev/sdk";
+"use client"
+
+import type React from "react"
+import { useState } from "react"
+import { motion } from "framer-motion"
+import { Link, Search, ExternalLink, MessageCircle } from "lucide-react"
+import { useCreateChat } from "@/entities/chat/hooks/mutations/use-create-chat.mutation"
+import WebApp from "@twa-dev/sdk"
 
 export default function AddChatBlock() {
-  const [chatLink, setChatLink] = useState("");
-  const [chatName, setChatName] = useState("");
-  const [error, setError] = useState("");
+  const [chatLink, setChatLink] = useState("")
+  const [chatName, setChatName] = useState("")
+  const [error, setError] = useState("")
 
-  const { mutate: createChat, isPending } = useCreateChat();
+  const { mutate: createChat, isPending } = useCreateChat()
 
   const handleChangeChatLink = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setChatLink(e.target.value);
-    if (error) setError("");
-  };
+    setChatLink(e.target.value)
+    if (error) setError("")
+  }
 
   const handleChangeChatName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setChatName(e.target.value);
-    if (error) setError("");
-  };
+    setChatName(e.target.value)
+    if (error) setError("")
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (!chatName.trim() || !chatLink.trim()) {
-      setError("Пожалуйста, заполните оба поля.");
-      return;
+      setError("Пожалуйста, заполните оба поля.")
+      return
     }
 
     const payload = {
@@ -36,15 +38,15 @@ export default function AddChatBlock() {
       status: "active",
       imageUrl: "/default-chat.png",
       telegramUsername: WebApp!.initDataUnsafe!.user!.username || "",
-    };
+    }
 
     createChat(payload, {
       onSuccess: () => {
-        setChatName("");
-        setChatLink("");
+        setChatName("")
+        setChatLink("")
       },
-    });
-  };
+    })
+  }
 
   return (
     <div className="min-h-screen w-full pb-16">
@@ -61,9 +63,8 @@ export default function AddChatBlock() {
           <div className="bg-white rounded-xl shadow-sm overflow-hidden">
             <div className="p-4">
               <p className="text-gray-600 text-sm">
-                Добавьте существующий чат, введя ссылку на него. Убедитесь, что
-                бот <code>@AdsTonify_bot</code> добавлен в чат и имеет права
-                администратора.
+                Добавьте существующий чат, введя ссылку на него. Убедитесь, что бот <code>@AdsTonify_bot</code> добавлен
+                в чат и имеет права администратора.
               </p>
             </div>
           </div>
@@ -73,10 +74,7 @@ export default function AddChatBlock() {
             <div className="p-4 space-y-4">
               {/* Chat Name */}
               <div>
-                <label
-                  htmlFor="chatName"
-                  className="block text-sm font-medium mb-1 text-gray-700"
-                >
+                <label htmlFor="chatName" className="block text-sm font-medium mb-1 text-gray-700">
                   Название чата
                 </label>
                 <div className="relative">
@@ -90,19 +88,13 @@ export default function AddChatBlock() {
                       error ? "border-red-500" : "border-gray-200"
                     } bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-blue-500`}
                   />
-                  <MessageCircle
-                    size={18}
-                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500"
-                  />
+                  <MessageCircle size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" />
                 </div>
               </div>
 
               {/* Chat Link */}
               <div>
-                <label
-                  htmlFor="chatLink"
-                  className="block text-sm font-medium mb-1 text-gray-700"
-                >
+                <label htmlFor="chatLink" className="block text-sm font-medium mb-1 text-gray-700">
                   Ссылка на чат*
                 </label>
                 <div className="relative">
@@ -116,10 +108,7 @@ export default function AddChatBlock() {
                       error ? "border-red-500" : "border-gray-200"
                     } bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-blue-500`}
                   />
-                  <Link
-                    size={18}
-                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500"
-                  />
+                  <Link size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" />
                 </div>
               </div>
 
@@ -171,5 +160,5 @@ export default function AddChatBlock() {
         </form>
       </div>
     </div>
-  );
+  )
 }

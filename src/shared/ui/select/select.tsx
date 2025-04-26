@@ -1,15 +1,14 @@
-import { forwardRef, type SelectHTMLAttributes } from "react";
+import { forwardRef, type SelectHTMLAttributes } from "react"
 
 export interface SelectOption {
-  value: string;
-  label: string;
+  value: string
+  label: string
 }
 
-export interface SelectProps
-  extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "children"> {
-  options?: SelectOption[]; // Accepts options dynamically
-  label?: string;
-  id?: string;
+export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "children"> {
+  options?: SelectOption[] // Accepts options dynamically
+  label?: string
+  id?: string
 }
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
@@ -43,8 +42,8 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           )}
         </select>
       </div>
-    );
-  }
-);
+    )
+  },
+)
 
-Select.displayName = "Select";
+Select.displayName = "Select"

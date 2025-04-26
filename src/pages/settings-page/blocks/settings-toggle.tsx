@@ -1,12 +1,14 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+"use client"
+
+import { useState } from "react"
+import { motion } from "framer-motion"
 
 interface SettingsToggleProps {
-  isOn: boolean;
-  onToggle: (value: boolean) => void;
-  activeColor?: string;
-  inactiveColor?: string;
-  className?: string;
+  isOn: boolean
+  onToggle: (value: boolean) => void
+  activeColor?: string
+  inactiveColor?: string
+  className?: string
 }
 
 export default function SettingsToggle({
@@ -16,7 +18,7 @@ export default function SettingsToggle({
   inactiveColor = "#e5e7eb",
   className = "",
 }: SettingsToggleProps) {
-  const [isPressed, setIsPressed] = useState(false);
+  const [isPressed, setIsPressed] = useState(false)
 
   return (
     <motion.div
@@ -41,5 +43,5 @@ export default function SettingsToggle({
         transition={{ type: "spring", stiffness: 500, damping: 30 }}
       />
     </motion.div>
-  );
+  )
 }

@@ -1,12 +1,14 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { Layout } from "../../shared/layouts/layout";
-import { OnboardingFirstBlock } from "./blocks/onboarding-first-block";
-import { OnboardingSecondBlock } from "./blocks/onboarding-second-block";
-import { OnboardingThirdBlock } from "./blocks/onboarding-third-block";
-import { useOnboardingStore } from "./model/use-onboarding-store";
+"use client"
+
+import { AnimatePresence, motion } from "framer-motion"
+import { Layout } from "../../shared/layouts/layout"
+import { OnboardingFirstBlock } from "./blocks/onboarding-first-block"
+import { OnboardingSecondBlock } from "./blocks/onboarding-second-block"
+import { OnboardingThirdBlock } from "./blocks/onboarding-third-block"
+import { useOnboardingStore } from "./model/use-onboarding-store"
 
 export const OnboardingPage = () => {
-  const { currentState } = useOnboardingStore();
+  const { currentState } = useOnboardingStore()
 
   return (
     <Layout isAuth={false}>
@@ -49,5 +51,5 @@ export const OnboardingPage = () => {
         )}
       </AnimatePresence>
     </Layout>
-  );
-};
+  )
+}

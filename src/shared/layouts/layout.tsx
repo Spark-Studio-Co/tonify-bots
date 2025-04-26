@@ -1,11 +1,11 @@
-import BottomTab from "@/features/bottom-tab/ui/bottom-tab";
-import { Header } from "@/features/header/header";
-import { BurgerMenu } from "@/features/menu/ui/menu";
-import React from "react";
+import BottomTab from "@/features/bottom-tab/ui/bottom-tab"
+import { Header } from "@/features/header/header"
+import { BurgerMenu } from "@/features/menu/ui/menu"
+import type React from "react"
 
 interface ILayout {
-  children: React.ReactNode;
-  isAuth?: boolean;
+  children: React.ReactNode
+  isAuth?: boolean
 }
 
 export const Layout: React.FC<ILayout> = ({ children, isAuth = true }) => {
@@ -16,5 +16,5 @@ export const Layout: React.FC<ILayout> = ({ children, isAuth = true }) => {
       <BurgerMenu />
       {isAuth && <BottomTab />}
     </div>
-  );
-};
+  )
+}

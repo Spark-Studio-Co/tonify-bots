@@ -1,19 +1,18 @@
-import { motion } from "framer-motion";
+"use client"
+
+import { motion } from "framer-motion"
 
 interface Metric {
-  label: string;
-  value: number;
+  label: string
+  value: number
 }
 
 interface StatsMetricsProps {
-  metrics: Metric[];
-  className?: string;
+  metrics: Metric[]
+  className?: string
 }
 
-export default function StatsMetrics({
-  metrics,
-  className = "",
-}: StatsMetricsProps) {
+export default function StatsMetrics({ metrics, className = "" }: StatsMetricsProps) {
   return (
     <div className={`grid grid-cols-2 gap-3 ${className}`}>
       {metrics.map((metric, index) => (
@@ -24,15 +23,12 @@ export default function StatsMetrics({
           transition={{ delay: 0.3 + index * 0.1 }}
           className="bg-white rounded-xl p-4 text-center"
         >
-          <div
-            className="text-xl font-bold mb-1"
-            style={{ color: "var(--color-main, #627ffe)" }}
-          >
+          <div className="text-xl font-bold mb-1" style={{ color: "var(--color-main, #627ffe)" }}>
             {metric.value.toLocaleString()}
           </div>
           <div className="text-sm text-gray-500">{metric.label}</div>
         </motion.div>
       ))}
     </div>
-  );
+  )
 }

@@ -1,16 +1,20 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { Clock, Search, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+"use client"
+
+import type React from "react"
+
+import { AnimatePresence, motion } from "framer-motion"
+import { Clock, Search, X } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
 
 interface SearchBarProps {
-  value: string;
-  onChange: (value: string) => void;
-  onSearch: () => void;
-  recentSearches?: string[];
-  onRecentSearchClick?: (query: string) => void;
-  onClearRecentSearches?: () => void;
-  placeholder?: string;
-  className?: string;
+  value: string
+  onChange: (value: string) => void
+  onSearch: () => void
+  recentSearches?: string[]
+  onRecentSearchClick?: (query: string) => void
+  onClearRecentSearches?: () => void
+  placeholder?: string
+  className?: string
 }
 
 export default function SearchBar({
@@ -23,9 +27,9 @@ export default function SearchBar({
   placeholder = "Поиск...",
   className = "",
 }: SearchBarProps) {
-  const [showRecentSearches, setShowRecentSearches] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [showRecentSearches, setShowRecentSearches] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   // Handle click outside to close dropdown
   useEffect(() => {
@@ -36,20 +40,20 @@ export default function SearchBar({
         inputRef.current &&
         !inputRef.current.contains(event.target as Node)
       ) {
-        setShowRecentSearches(false);
+        setShowRecentSearches(false)
       }
-    };
+    }
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
 
   // Handle search submit
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setShowRecentSearches(false);
-    onSearch();
-  };
+    e.preventDefault()
+    setShowRecentSearches(false)
+    onSearch()
+  }
 
   return (
     <div className={`relative  ${className}`}>
@@ -60,9 +64,7 @@ export default function SearchBar({
             type="text"
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            onFocus={() =>
-              value && recentSearches.length > 0 && setShowRecentSearches(true)
-            }
+            onFocus={() => value && recentSearches.length > 0 && setShowRecentSearches(true)}
             placeholder={placeholder}
             className="w-full py-2.5 pl-10 pr-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-opacity-50"
             style={{
@@ -78,8 +80,8 @@ export default function SearchBar({
             <button
               type="button"
               onClick={() => {
-                onChange("");
-                setShowRecentSearches(false);
+                onChange("")
+                setShowRecentSearches(false)
               }}
               className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-gray-100"
             >
@@ -100,9 +102,7 @@ export default function SearchBar({
             >
               <div className="p-2">
                 <div className="flex justify-between items-center px-2 py-1 mb-1">
-                  <span className="text-xs text-gray-500">
-                    Недавние запросы
-                  </span>
+                  <span className="text-xs text-gray-500">Недавние запросы</span>
                   {onClearRecentSearches && (
                     <button
                       type="button"
@@ -119,11 +119,11 @@ export default function SearchBar({
                     type="button"
                     onClick={() => {
                       if (onRecentSearchClick) {
-                        onRecentSearchClick(query);
+                        onRecentSearchClick(query)
                       } else {
-                        onChange(query);
-                        setShowRecentSearches(false);
-                        onSearch();
+                        onChange(query)
+                        setShowRecentSearches(false)
+                        onSearch()
                       }
                     }}
                     className="w-full text-left px-3 py-2 hover:bg-gray-50 rounded-lg flex items-center"
@@ -138,5 +138,5 @@ export default function SearchBar({
         </AnimatePresence>
       </form>
     </div>
-  );
+  )
 }

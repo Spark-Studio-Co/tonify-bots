@@ -1,19 +1,21 @@
-import ReferralCard from "@/entities/referral/referral-card";
-import ActionButton from "@/shared/ui/action-button/action-button";
-import { PlusCircle, Wallet } from "lucide-react";
-import { useModalBalanceStore } from "@/entities/balance/store/use-modal-balance-store";
-import ChatsList from "@/widgets/chats-list/chats-list";
-import ChatOwnerProfileCard from "@/entities/profile/ui/chat-owner-profile-tab";
-import { useNavigate } from "react-router-dom";
+"use client"
+
+import ReferralCard from "@/entities/referral/referral-card"
+import ActionButton from "@/shared/ui/action-button/action-button"
+import { PlusCircle, Wallet } from "lucide-react"
+import { useModalBalanceStore } from "@/entities/balance/store/use-modal-balance-store"
+import ChatsList from "@/widgets/chats-list/chats-list"
+import ChatOwnerProfileCard from "@/entities/profile/ui/chat-owner-profile-tab"
+import { useNavigate } from "react-router-dom"
 
 export const HomeChatOwnerBlock = () => {
-  const { openModal } = useModalBalanceStore();
-  const navigate = useNavigate();
+  const { openModal } = useModalBalanceStore()
+  const navigate = useNavigate()
 
   const handleManageBalance = () => {
-    openModal();
-    console.log("Manage balance clicked");
-  };
+    openModal()
+    console.log("Manage balance clicked")
+  }
 
   return (
     <div className="w-full flex flex-col min-h-screen ">
@@ -37,5 +39,5 @@ export const HomeChatOwnerBlock = () => {
         <ChatsList />
       </main>
     </div>
-  );
-};
+  )
+}

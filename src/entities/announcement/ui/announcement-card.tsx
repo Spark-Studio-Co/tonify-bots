@@ -11,23 +11,27 @@ export interface Ad {
 
 export const AnnouncementCard = ({
   ad,
+  onClick,
 }: {
-  ad?: Ad;
+  ad: Ad; // 🔥 обязательно
   onClick?: (ad: Ad) => void;
 }) => {
   const navigate = useNavigate();
 
-  console.log(ad);
-
-  if (!ad)
-    return <div className="text-red-500">Ошибка: объявление не найдено</div>;
+  const handleClick = () => {
+    if (onClick) {
+      onClick(ad);
+    } else {
+      navigate(`/announcement/${ad.id}`);
+    }
+  };
 
   const statusColor =
     ad.status === "open" ? "var(--color-secondary, #7bc394)" : "#f87171";
 
   return (
     <article
-      onClick={() => navigate(`/announcement/${ad.id}`)}
+      onClick={handleClick}
       className="rounded-xl p-3 bg-[#EFF3FC] flex items-center gap-3 cursor-pointer"
     >
       <img

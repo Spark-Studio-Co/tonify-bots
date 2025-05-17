@@ -1,59 +1,70 @@
-"use client"
+"use client";
 
-import { AnimatePresence, motion } from "framer-motion"
-import { X, Home, User, FileText, Calendar, Wallet, HelpCircle, MessageCircle, Settings, LogOut } from "lucide-react"
-import { useEffect, useRef } from "react"
-import { useNavigate } from "react-router-dom"
-import { useMenuStore } from "../model/use-menu-store"
-import WebApp from "@twa-dev/sdk"
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  X,
+  FileText,
+  Wallet,
+  HelpCircle,
+  MessageCircle,
+  LogOut,
+} from "lucide-react";
+import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { useMenuStore } from "../model/use-menu-store";
+import WebApp from "@twa-dev/sdk";
 
 export function BurgerMenu() {
-  const { isOpen, closeMenu } = useMenuStore()
-  const menuRef = useRef<any>(null)
-  const navigate = useNavigate()
+  const { isOpen, closeMenu } = useMenuStore();
+  const menuRef = useRef<any>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
-      if (menuRef.current && !menuRef.current.contains(event.target) && isOpen) {
-        closeMenu()
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target) &&
+        isOpen
+      ) {
+        closeMenu();
       }
-    }
-    document.addEventListener("mousedown", handleClickOutside)
+    };
+    document.addEventListener("mousedown", handleClickOutside);
 
     if (isOpen) {
-      document.body.style.overflow = "hidden"
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = ""
+      document.body.style.overflow = "";
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-      document.body.style.overflow = ""
-    }
-  }, [isOpen, closeMenu])
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "";
+    };
+  }, [isOpen, closeMenu]);
 
   const handleNavigate = (path: string) => {
-    navigate(path)
-    closeMenu()
-  }
+    navigate(path);
+    closeMenu();
+  };
 
   const handleSupportChat = () => {
-    WebApp.openTelegramLink("https://t.me/support_username")
-    closeMenu()
-  }
+    WebApp.openTelegramLink("https://t.me/support_username");
+    closeMenu();
+  };
 
   const handleProjectChannel = () => {
-    WebApp.openTelegramLink("https://t.me/project_channel")
-    closeMenu()
-  }
+    WebApp.openTelegramLink("https://t.me/project_channel");
+    closeMenu();
+  };
 
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to log out?")) {
-      localStorage.removeItem("accessToken")
-      navigate("/")
-      closeMenu()
+      localStorage.removeItem("accessToken");
+      navigate("/");
+      closeMenu();
     }
-  }
+  };
 
   return (
     <AnimatePresence>
@@ -77,7 +88,10 @@ export function BurgerMenu() {
             className="fixed top-0 right-0 h-full w-4/5 max-w-xs bg-white z-50 shadow-xl flex flex-col"
           >
             <div className="p-4 flex justify-between items-center border-b border-gray-100">
-              <h2 className="text-xl font-bold" style={{ color: "var(--color-main, #627ffe)" }}>
+              <h2
+                className="text-xl font-bold"
+                style={{ color: "var(--color-main, #627ffe)" }}
+              >
                 Menu
               </h2>
               <button
@@ -88,52 +102,31 @@ export function BurgerMenu() {
                 <X size={20} style={{ color: "var(--color-dark, #121826)" }} />
               </button>
             </div>
-
             <div className="flex-1 overflow-y-auto py-2">
               <div className="px-4 py-2">
-                <button
-                  onClick={() => handleNavigate("/home")}
-                  className="w-full flex items-center py-3 px-2 rounded-lg hover:bg-gray-100"
-                >
-                  <Home size={20} className="mr-3 text-gray-500" />
-                  <span className="text-gray-900">Home</span>
-                </button>
-
-                <button
-                  onClick={() => handleNavigate("/profile")}
-                  className="w-full flex items-center py-3 px-2 rounded-lg hover:bg-gray-100"
-                >
-                  <User size={20} className="mr-3 text-gray-500" />
-                  <span className="text-gray-900">Profile</span>
-                </button>
-
                 <button
                   onClick={() => handleNavigate("/wallet")}
                   className="w-full flex items-center py-3 px-2 rounded-lg hover:bg-gray-100"
                 >
                   <Wallet size={20} className="mr-3 text-gray-500" />
-                  <span className="text-gray-900">Wallet</span>
+                  <span className="text-gray-900">Кошельке</span>
                 </button>
-
                 <button
                   onClick={() => handleNavigate("/drafts")}
                   className="w-full flex items-center py-3 px-2 rounded-lg hover:bg-gray-100"
                 >
                   <FileText size={20} className="mr-3 text-gray-500" />
-                  <span className="text-gray-900">Drafts</span>
+                  <span className="text-gray-900">Черновики</span>
                 </button>
-
                 <button
-                  onClick={() => handleNavigate("/publication-log")}
+                  onClick={() => handleNavigate("/deals")}
                   className="w-full flex items-center py-3 px-2 rounded-lg hover:bg-gray-100"
                 >
-                  <Calendar size={20} className="mr-3 text-gray-500" />
-                  <span className="text-gray-900">Publication Log</span>
+                  <FileText size={20} className="mr-3 text-gray-500" />
+                  <span className="text-gray-900">Сделки</span>
                 </button>
               </div>
-
               <div className="border-t border-gray-100 my-2"></div>
-
               <div className="px-4 py-2">
                 <button
                   onClick={handleSupportChat}
@@ -150,29 +143,20 @@ export function BurgerMenu() {
                   <HelpCircle size={20} className="mr-3 text-gray-500" />
                   <span className="text-gray-900">Project Channel</span>
                 </button>
-
-                <button
-                  onClick={() => handleNavigate("/settings")}
-                  className="w-full flex items-center py-3 px-2 rounded-lg hover:bg-gray-100"
-                >
-                  <Settings size={20} className="mr-3 text-gray-500" />
-                  <span className="text-gray-900">Settings</span>
-                </button>
               </div>
             </div>
-
             <div className="border-t border-gray-100 p-4">
               <button
                 onClick={handleLogout}
                 className="w-full flex items-center py-3 px-2 rounded-lg hover:bg-gray-100 text-red-500"
               >
                 <LogOut size={20} className="mr-3" />
-                <span>Log Out</span>
+                <span>Выйти</span>
               </button>
             </div>
           </motion.div>
         </>
       )}
     </AnimatePresence>
-  )
+  );
 }

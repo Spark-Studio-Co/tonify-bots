@@ -35,6 +35,7 @@ import { ProtectedRoute } from "./shared/lib/protected-route";
 import { useAuthData } from "./entities/auth/store/use-auth.store";
 import { ToastProvider } from "./shared/layouts/toast-provider";
 import { InnerAnnouncementPage } from "./pages/inner-announcement-page/inner-announcement-page";
+import DealsPage from "./pages/deals-page/deals-page";
 
 // Animations
 const pageVariants = {
@@ -68,6 +69,7 @@ const authRoutes = [
   { path: "/profile", element: <ProfilePage /> },
   { path: "/add-announcement", element: <AddAnnouncementPage /> },
   { path: "/announcement/:id", element: <InnerAnnouncementPage /> },
+  { path: "/deals", element: <DealsPage /> },
   { path: "/add-chat", element: <AddChatPage /> },
   { path: "/settings", element: <SettingsPage /> },
   { path: "/wallet", element: <WalletPage /> },

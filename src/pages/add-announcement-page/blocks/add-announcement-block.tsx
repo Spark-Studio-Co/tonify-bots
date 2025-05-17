@@ -1,12 +1,13 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useRef } from "react"
-import { motion } from "framer-motion"
-import { Image, Users, X, Check } from "lucide-react"
-import { useAddAnnouncement } from "@/entities/announcement/hooks/mutations/use-add-announcement.mutation"
-import WebApp from "@twa-dev/sdk"
+import { useState, useRef } from "react";
+import { motion } from "framer-motion";
+import { ImageIcon, Users, X, Check } from "lucide-react";
+import { useAddAnnouncement } from "@/entities/announcement/hooks/mutations/use-add-announcement.mutation";
+import WebApp from "@twa-dev/sdk";
+import { ModerationPopup } from "./moderation-popup";
 
 export const AddAnnouncementBlock = () => {
   const [formData, setFormData] = useState({
@@ -17,11 +18,13 @@ export const AddAnnouncementBlock = () => {
     scheduledTime: "",
     telegramUsername: "",
     categories: [] as string[],
-  })
-  const [errors, setErrors] = useState<Record<string, string>>({})
-  const [previewImage, setPreviewImage] = useState<string | null>(null)
-  const fileInputRef = useRef<HTMLInputElement>(null)
-  const { mutate: addAnnouncement, isPending: isLoading } = useAddAnnouncement()
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [showModerationPopup, setShowModerationPopup] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { mutate: addAnnouncement, isPending: isLoading } =
+    useAddAnnouncement();
 
   // Available chats for targeting
   const availableChats = [
@@ -30,92 +33,96 @@ export const AddAnnouncementBlock = () => {
     { id: "chat3", name: "🌍 Путешествия и туризм" },
     { id: "chat4", name: "📚 Книжный клуб" },
     { id: "chat5", name: "⚽ Фанаты футбола" },
-  ]
+  ];
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
 
     // Clear error when user types
     if (errors[name]) {
       setErrors((prev) => {
-        const newErrors = { ...prev }
-        delete newErrors[name]
-        return newErrors
-      })
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
     }
-  }
+  };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0]
-      const reader = new FileReader()
+      const file = e.target.files[0];
+      const reader = new FileReader();
 
       reader.onload = (event) => {
         if (event.target?.result) {
-          setPreviewImage(event.target.result as string)
+          setPreviewImage(event.target.result as string);
           setFormData((prev) => ({
             ...prev,
             imageUrl: URL.createObjectURL(file),
-          }))
+          }));
         }
-      }
+      };
 
-      reader.readAsDataURL(file)
+      reader.readAsDataURL(file);
     }
-  }
+  };
 
   const handleChatToggle = (chatId: string) => {
     setFormData((prev) => {
-      const isSelected = prev.categories.includes(chatId)
+      const isSelected = prev.categories.includes(chatId);
 
       if (isSelected) {
         return {
           ...prev,
           categories: prev.categories.filter((id) => id !== chatId),
-        }
+        };
       } else {
         return {
           ...prev,
           categories: [...prev.categories, chatId],
-        }
+        };
       }
-    })
+    });
 
     // Clear error when user selects chats
     if (errors.categories) {
       setErrors((prev) => {
-        const newErrors = { ...prev }
-        delete newErrors.categories
-        return newErrors
-      })
+        const newErrors = { ...prev };
+        delete newErrors.categories;
+        return newErrors;
+      });
     }
-  }
+  };
 
   const validateForm = () => {
-    const newErrors: Record<string, string> = {}
+    const newErrors: Record<string, string> = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = "Введите заголовок объявл��ния"
+      newErrors.name = "Введите заголовок объявления";
     }
 
     if (!formData.description.trim()) {
-      newErrors.description = "Введите текст объявления"
+      newErrors.description = "Введите текст объявления";
     }
 
     if (formData.categories.length === 0) {
-      newErrors.categories = "Выберите хотя бы один чат"
+      newErrors.categories = "Выберите хотя бы один чат";
     }
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (!validateForm()) return
-    const hasSchedule = formData.scheduledDate && formData.scheduledTime
+    if (!validateForm()) return;
+    const hasSchedule = formData.scheduledDate && formData.scheduledTime;
 
     const payload = {
       name: formData.name,
@@ -124,12 +131,35 @@ export const AddAnnouncementBlock = () => {
       telegramUsername: WebApp.initDataUnsafe.user?.username || "",
       categories: formData.categories,
       ...(hasSchedule && {
-        scheduledAt: new Date(`${formData.scheduledDate}T${formData.scheduledTime}`).toISOString(),
+        scheduledAt: new Date(
+          `${formData.scheduledDate}T${formData.scheduledTime}`
+        ).toISOString(),
       }),
-    }
+    };
 
-    addAnnouncement(payload as any)
-  }
+    addAnnouncement(payload as any, {
+      onSuccess: () => {
+        // Reset form
+        setFormData({
+          name: "",
+          description: "",
+          imageUrl: "",
+          scheduledDate: "",
+          scheduledTime: "",
+          telegramUsername: "",
+          categories: [],
+        });
+        setPreviewImage(null);
+
+        // Show moderation popup
+        setShowModerationPopup(true);
+      },
+    });
+  };
+
+  const handleClosePopup = () => {
+    setShowModerationPopup(false);
+  };
 
   return (
     <div className="min-h-screen w-full pb-24">
@@ -140,7 +170,10 @@ export const AddAnnouncementBlock = () => {
           <div className="bg-white rounded-xl shadow-sm overflow-hidden">
             <div className="p-4 space-y-4">
               <div>
-                <label htmlFor="title" className="block text-sm font-medium mb-1 text-gray-700">
+                <label
+                  htmlFor="title"
+                  className="block text-sm font-medium mb-1 text-gray-700"
+                >
                   Заголовок*
                 </label>
                 <input
@@ -154,10 +187,15 @@ export const AddAnnouncementBlock = () => {
                     errors.name ? "border-red-500" : "border-gray-200"
                   } bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-blue-500`}
                 />
-                {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
+                {errors.name && (
+                  <p className="mt-1 text-sm text-red-500">{errors.name}</p>
+                )}
               </div>
               <div>
-                <label htmlFor="description" className="block text-sm font-medium mb-1 text-gray-700">
+                <label
+                  htmlFor="description"
+                  className="block text-sm font-medium mb-1 text-gray-700"
+                >
                   Текст объявления*
                 </label>
                 <textarea
@@ -171,7 +209,11 @@ export const AddAnnouncementBlock = () => {
                     errors.description ? "border-red-500" : "border-gray-200"
                   } bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-blue-500`}
                 />
-                {errors.description && <p className="mt-1 text-sm text-red-500">{errors.description}</p>}
+                {errors.description && (
+                  <p className="mt-1 text-sm text-red-500">
+                    {errors.description}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -179,8 +221,14 @@ export const AddAnnouncementBlock = () => {
           <div className="bg-white rounded-xl shadow-sm overflow-hidden">
             <div className="p-4">
               <div className="flex items-center justify-between mb-3">
-                <label className="block text-sm font-medium text-gray-700">Изображение</label>
-                <button type="button" onClick={() => fileInputRef.current?.click()} className="text-sm text-blue-500">
+                <label className="block text-sm font-medium text-gray-700">
+                  Изображение
+                </label>
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="text-sm text-blue-500"
+                >
                   Выбрать
                 </button>
                 <input
@@ -201,8 +249,8 @@ export const AddAnnouncementBlock = () => {
                   <button
                     type="button"
                     onClick={() => {
-                      setPreviewImage(null)
-                      setFormData((prev) => ({ ...prev, imageUrl: "" }))
+                      setPreviewImage(null);
+                      setFormData((prev) => ({ ...prev, imageUrl: "" }));
                     }}
                     className="absolute top-2 right-2 bg-black bg-opacity-50 rounded-full p-1"
                   >
@@ -214,8 +262,10 @@ export const AddAnnouncementBlock = () => {
                   onClick={() => fileInputRef.current?.click()}
                   className="border-2 border-dashed border-gray-300 rounded-lg p-4 h-32 flex flex-col items-center justify-center cursor-pointer"
                 >
-                  <Image size={24} className="text-gray-400 mb-2" />
-                  <p className="text-sm text-gray-500">Нажмите, чтобы добавить изображение</p>
+                  <ImageIcon size={24} className="text-gray-400 mb-2" />
+                  <p className="text-sm text-gray-500">
+                    Нажмите, чтобы добавить изображение
+                  </p>
                 </div>
               )}
             </div>
@@ -223,10 +273,16 @@ export const AddAnnouncementBlock = () => {
           <div className="bg-white rounded-xl shadow-sm overflow-hidden">
             <div className="p-4 space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="font-medium text-gray-900">Выберите категории*</h3>
-                <span className="text-sm text-gray-500">Выбрано: {formData.categories.length}</span>
+                <h3 className="font-medium text-gray-900">
+                  Выберите категории*
+                </h3>
+                <span className="text-sm text-gray-500">
+                  Выбрано: {formData.categories.length}
+                </span>
               </div>
-              {errors.categories && <p className="text-sm text-red-500">{errors.categories}</p>}
+              {errors.categories && (
+                <p className="text-sm text-red-500">{errors.categories}</p>
+              )}
               <div className="space-y-2">
                 {availableChats.map((chat) => (
                   <div
@@ -269,6 +325,11 @@ export const AddAnnouncementBlock = () => {
           </motion.button>
         </form>
       </div>
+      <ModerationPopup
+        isOpen={showModerationPopup}
+        onClose={handleClosePopup}
+        autoCloseDelay={3000}
+      />
     </div>
-  )
-}
+  );
+};

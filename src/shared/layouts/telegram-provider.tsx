@@ -1,82 +1,91 @@
-
-import type React from "react"
-
-import { createContext, useContext, useEffect, useMemo, useState } from "react"
-import type { ITelegramUser, IWebApp } from "../types/types"
-// import { useRegisterUser } from "@/entities/auth/hooks/mutations/use-register.mutation";
-// import { useAuthData } from "@/entities/auth/store/use-auth.store";
-import { useExpandView } from "../hooks/useExpandView"
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { useNavigate } from "react-router-dom";
+import type { ITelegramUser, IWebApp } from "../types/types";
+import { useExpandView } from "../hooks/useExpandView";
+import { apiClient } from "@/shared/api/apiClient";
+import { useAuthData } from "@/entities/auth/store/use-auth.store";
 
 export interface ITelegramContext {
-  webApp?: IWebApp
-  user?: ITelegramUser
+  webApp?: IWebApp;
+  user?: ITelegramUser;
 }
 
-export const TelegramContext = createContext<ITelegramContext>({})
+export const TelegramContext = createContext<ITelegramContext>({});
 
 export const TelegramProvider = ({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) => {
-  const [webApp, setWebApp] = useState<IWebApp | null>(null)
-  useExpandView()
+  const [webApp, setWebApp] = useState<IWebApp | null>(null);
+  const navigate = useNavigate();
+  const { saveToken, saveUserId, saveRole } = useAuthData();
+
+  useExpandView();
 
   useEffect(() => {
-    const app = (window as any).Telegram?.WebApp
+    const app = (window as any).Telegram?.WebApp;
 
     if (!app) {
-      console.warn("❌ Telegram WebApp not detected.")
-      return
+      console.warn("❌ Telegram WebApp not detected.");
+      return;
     }
 
-    // Check if the redirect has already happened in this session
     if (!app.initDataUnsafe?.user) {
-      const hasRedirected = sessionStorage.getItem("telegramRedirected")
+      const hasRedirected = sessionStorage.getItem("telegramRedirected");
 
       if (!hasRedirected) {
-        sessionStorage.setItem("telegramRedirected", "true")
-        console.warn("⚠️ No Telegram user data found! Redirecting...")
+        sessionStorage.setItem("telegramRedirected", "true");
+        console.warn("⚠️ No Telegram user data found! Redirecting...");
       }
-      return
+      return;
     }
 
-    console.log("✅ Telegram WebApp detected:", app)
-    app.expand()
-    app.ready()
-    setWebApp(app)
+    console.log("✅ Telegram WebApp detected:", app);
+    app.expand();
+    app.ready();
+    setWebApp(app);
 
-    console.log("🗑️ Removing old token...")
-    localStorage.removeItem("token")
+    console.log("🗑️ Removing old token...");
+    localStorage.removeItem("token");
 
-    console.log("ℹ️ Handling user authentication...")
+    console.log("ℹ️ Handling user authentication...");
 
     const authenticateUserRequest = async () => {
       try {
-        const telegramUser = app.initDataUnsafe?.user
+        const telegramUser = app.initDataUnsafe?.user;
+        const telegramUsername =
+          telegramUser?.username || String(telegramUser?.id);
 
-        if (!telegramUser) {
-          console.warn("⚠️ No Telegram user data found!")
-          return
-        }
+        console.log(
+          "🔐 Attempting login with Telegram username:",
+          telegramUsername
+        );
 
-        // const userData = {
-        //   telegramUsername: telegramUser.username || telegramUser.id,
-        // };
+        const { data } = await apiClient.post("/auth/login", {
+          telegramUsername,
+        });
 
-        console.log("🔄 Authenticating user...")
-        // const response = await register(userData as any);
-        // saveToken(response.accessToken as any);
-        // test
+        console.log("✅ Auth successful, saving token:", data.accessToken);
 
-        // console.log("✅ Token updated and saved:", response.token);
+        saveToken(data.accessToken);
+        saveUserId(data.user.userId);
+        saveRole(data.user.role);
+
+        navigate("/home");
       } catch (error) {
-        console.error("❌ Error in authentication:", error)
+        console.error("❌ Error in authentication:", error);
       }
-    }
+    };
 
-    authenticateUserRequest()
-  }, [])
+    authenticateUserRequest();
+  }, []);
 
   const value = useMemo(() => {
     return webApp
@@ -85,14 +94,18 @@ export const TelegramProvider = ({
           unsafeData: webApp.initDataUnsafe,
           user: webApp.initDataUnsafe.user,
         }
-      : {}
-  }, [webApp])
+      : {};
+  }, [webApp]);
 
-  console.log("📌 TelegramProvider rendering with value:", value)
+  console.log("📌 TelegramProvider rendering with value:", value);
 
-  return <TelegramContext.Provider value={value}>{children}</TelegramContext.Provider>
-}
+  return (
+    <TelegramContext.Provider value={value}>
+      {children}
+    </TelegramContext.Provider>
+  );
+};
 
 export const useTelegram = () => {
-  return useContext(TelegramContext)
-}
+  return useContext(TelegramContext);
+};

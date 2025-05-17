@@ -12,6 +12,9 @@ export default defineConfig({
     },
   },
   server: {
-    allowedHosts: ['6328-37-99-2-86.ngrok-free.app']
-  }
+    allowedHosts: [
+      "6328-37-99-2-86.ngrok-free.app",
+      "tonify-server-production-f45b.up.railway.app",
+    ],
+  },
 });

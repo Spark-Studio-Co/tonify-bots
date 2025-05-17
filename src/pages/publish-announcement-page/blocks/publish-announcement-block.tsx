@@ -1,47 +1,52 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { ArrowLeft, Calendar, Clock, Send, CheckCircle } from "lucide-react"
-import { useNavigate, useParams } from "react-router-dom"
-import { useGetDraft } from "@/entities/draft/hooks/useGetDraft"
-import { usePublishAnnouncement } from "@/entities/publication/hooks/usePublishAnnouncement"
-import { useChats } from "@/entities/chat/hooks/queries/use-get-chats.queries"
-import LoadingIndicator from "@/shared/ui/loading-indicator/loading-indicator"
-import WebApp from "@twa-dev/sdk"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { ArrowLeft, Calendar, Clock, Send, CheckCircle } from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useGetDraft } from "@/entities/draft/hooks/useGetDraft";
+import { usePublishAnnouncement } from "@/entities/publication/hooks/usePublishAnnouncement";
+import { useChats } from "@/entities/chat/hooks/queries/use-get-chats.queries";
+import LoadingIndicator from "@/shared/ui/loading-indicator/loading-indicator";
+import { useToast } from "@/shared/layouts/toast-provider";
 
 export default function PublishAnnouncementBlock() {
-  const { id } = useParams<{ id: string }>()
-  const draftId = id ? Number.parseInt(id) : 0
+  const { id } = useParams<{ id: string }>();
+  const draftId = id ? Number.parseInt(id) : 0;
 
-  const { data: draft, isLoading: isLoadingDraft } = useGetDraft(draftId)
-  const { data: chats = [], isLoading: isLoadingChats } = useChats()
-  const { mutate: publishAnnouncement, isPending } = usePublishAnnouncement()
+  const { data: draft, isLoading: isLoadingDraft } = useGetDraft(draftId);
+  const { data: chats = [], isLoading: isLoadingChats } = useChats();
+  const { mutate: publishAnnouncement, isPending } = usePublishAnnouncement();
+  const { addToast } = useToast();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const [selectedChats, setSelectedChats] = useState<number[]>([])
-  const [scheduleDate, setScheduleDate] = useState("")
-  const [scheduleTime, setScheduleTime] = useState("")
-  const [isScheduled, setIsScheduled] = useState(false)
+  const [selectedChats, setSelectedChats] = useState<number[]>([]);
+  const [scheduleDate, setScheduleDate] = useState("");
+  const [scheduleTime, setScheduleTime] = useState("");
+  const [isScheduled, setIsScheduled] = useState(false);
 
   // Set minimum date to today
-  const today = new Date().toISOString().split("T")[0]
+  const today = new Date().toISOString().split("T")[0];
 
   const handleChatToggle = (chatId: number) => {
     setSelectedChats((prev) => {
       if (prev.includes(chatId)) {
-        return prev.filter((id) => id !== chatId)
+        return prev.filter((id) => id !== chatId);
       } else {
-        return [...prev, chatId]
+        return [...prev, chatId];
       }
-    })
-  }
+    });
+  };
 
   const handlePublish = () => {
     if (selectedChats.length === 0) {
-      WebApp.showAlert("Please select at least one chat")
-      return
+      addToast({
+        title: "Ошибка",
+        description: "Пожалуйста, выберите хотя бы один чат",
+        type: "error",
+      });
+      return;
     }
 
     const payload = {
@@ -49,46 +54,68 @@ export default function PublishAnnouncementBlock() {
       chatIds: selectedChats,
       isPinned: draft?.isPinned || false,
       ...(isScheduled && scheduleDate && scheduleTime
-        ? { scheduledAt: new Date(`${scheduleDate}T${scheduleTime}`).toISOString() }
+        ? {
+            scheduledAt: new Date(
+              `${scheduleDate}T${scheduleTime}`
+            ).toISOString(),
+          }
         : {}),
-    }
+    };
 
     publishAnnouncement(payload, {
       onSuccess: () => {
-        WebApp.showAlert("Announcement published successfully!")
-        navigate("/publication-log")
+        addToast({
+          title: "Успешно!",
+          description: "Объявление успешно опубликовано",
+          type: "success",
+        });
+        navigate("/publication-log");
       },
       onError: (error) => {
-        console.error("Error publishing announcement:", error)
-        WebApp.showAlert("Failed to publish announcement. Please try again.")
+        console.error("Error publishing announcement:", error);
+        addToast({
+          title: "Ошибка",
+          description:
+            "Не удалось опубликовать объявление. Пожалуйста, попробуйте снова.",
+          type: "error",
+        });
       },
-    })
-  }
+    });
+  };
 
   if (isLoadingDraft || isLoadingChats) {
     return (
       <div className="min-h-screen w-full flex items-center justify-center">
         <LoadingIndicator size="large" />
       </div>
-    )
+    );
   }
 
   if (!draft && !isLoadingDraft) {
     return (
       <div className="min-h-screen w-full flex flex-col items-center justify-center p-4">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Draft Not Found</h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-4">
+          Draft Not Found
+        </h2>
         <p className="text-gray-600 mb-6 text-center">
           The draft you're looking for doesn't exist or has been deleted.
         </p>
         <button
-          onClick={() => navigate("/drafts")}
+          onClick={() => {
+            addToast({
+              title: "Навигация",
+              description: "Возвращаемся к списку черновиков",
+              type: "info",
+            });
+            navigate("/drafts");
+          }}
           className="py-2 px-4 rounded-lg text-white font-medium"
           style={{ backgroundColor: "var(--color-main, #627ffe)" }}
         >
           Back to Drafts
         </button>
       </div>
-    )
+    );
   }
 
   return (
@@ -96,10 +123,15 @@ export default function PublishAnnouncementBlock() {
       <div className="container mx-auto max-w-md">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
-          <button onClick={() => navigate("/drafts")} className="p-2 rounded-full hover:bg-gray-100">
+          <button
+            onClick={() => navigate("/drafts")}
+            className="p-2 rounded-full hover:bg-gray-100"
+          >
             <ArrowLeft size={24} className="text-gray-900" />
           </button>
-          <h1 className="text-xl font-bold text-gray-900">Publish Announcement</h1>
+          <h1 className="text-xl font-bold text-gray-900">
+            Publish Announcement
+          </h1>
           <div className="w-10"></div> {/* Spacer for alignment */}
         </div>
 
@@ -108,7 +140,9 @@ export default function PublishAnnouncementBlock() {
           <div className="p-4">
             <h2 className="font-medium text-gray-900 mb-2">Draft Preview</h2>
 
-            {draft?.title && <h3 className="font-medium text-gray-900 mb-1">{draft.title}</h3>}
+            {draft?.title && (
+              <h3 className="font-medium text-gray-900 mb-1">{draft.title}</h3>
+            )}
 
             <p className="text-gray-600 mb-3">{draft?.content}</p>
 
@@ -158,7 +192,9 @@ export default function PublishAnnouncementBlock() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-4 text-gray-500">No chats available. Please add a chat first.</div>
+              <div className="text-center py-4 text-gray-500">
+                No chats available. Please add a chat first.
+              </div>
             )}
           </div>
         </div>
@@ -192,7 +228,10 @@ export default function PublishAnnouncementBlock() {
             {isScheduled && (
               <div className="space-y-3">
                 <div>
-                  <label htmlFor="schedule-date" className="block text-sm font-medium mb-1 text-gray-700">
+                  <label
+                    htmlFor="schedule-date"
+                    className="block text-sm font-medium mb-1 text-gray-700"
+                  >
                     Date
                   </label>
                   <div className="relative">
@@ -204,12 +243,18 @@ export default function PublishAnnouncementBlock() {
                       onChange={(e) => setScheduleDate(e.target.value)}
                       className="w-full py-3 pl-10 pr-4 rounded-xl border border-gray-200 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-blue-500"
                     />
-                    <Calendar size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" />
+                    <Calendar
+                      size={18}
+                      className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500"
+                    />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="schedule-time" className="block text-sm font-medium mb-1 text-gray-700">
+                  <label
+                    htmlFor="schedule-time"
+                    className="block text-sm font-medium mb-1 text-gray-700"
+                  >
                     Time
                   </label>
                   <div className="relative">
@@ -220,7 +265,10 @@ export default function PublishAnnouncementBlock() {
                       onChange={(e) => setScheduleTime(e.target.value)}
                       className="w-full py-3 pl-10 pr-4 rounded-xl border border-gray-200 bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-opacity-50 focus:ring-blue-500"
                     />
-                    <Clock size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" />
+                    <Clock
+                      size={18}
+                      className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500"
+                    />
                   </div>
                 </div>
               </div>
@@ -233,7 +281,11 @@ export default function PublishAnnouncementBlock() {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={handlePublish}
-          disabled={isPending || selectedChats.length === 0 || (isScheduled && (!scheduleDate || !scheduleTime))}
+          disabled={
+            isPending ||
+            selectedChats.length === 0 ||
+            (isScheduled && (!scheduleDate || !scheduleTime))
+          }
           className="w-full py-3.5 px-6 rounded-xl text-white font-medium flex items-center justify-center disabled:opacity-50"
           style={{
             backgroundColor: "var(--color-main, #627ffe)",
@@ -254,5 +306,5 @@ export default function PublishAnnouncementBlock() {
         </motion.button>
       </div>
     </div>
-  )
+  );
 }

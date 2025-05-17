@@ -7,12 +7,15 @@ import { Link, Search, ExternalLink, MessageCircle, Lock } from "lucide-react";
 import { useToast } from "@/shared/layouts/toast-provider";
 import { useCreateChat } from "@/entities/chat/hooks/mutations/use-create-chat.mutation";
 import { useTelegram } from "@/shared/layouts/telegram-provider";
+import { SuccessPopup } from "./success-popup";
 
 export default function AddChatBlock() {
   const [chatLink, setChatLink] = useState("");
   const [chatName, setChatName] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
   const [error, setError] = useState("");
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [successChatName, setSuccessChatName] = useState("");
   const { addToast } = useToast();
   const { user } = useTelegram();
 
@@ -44,6 +47,10 @@ export default function AddChatBlock() {
     });
   };
 
+  const handleCloseSuccessPopup = () => {
+    setShowSuccessPopup(false);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -70,6 +77,10 @@ export default function AddChatBlock() {
 
     createChat(payload, {
       onSuccess: () => {
+        // Save the chat name for the success popup
+        setSuccessChatName(chatName);
+
+        // Show toast notification
         addToast({
           title: "Успешно!",
           description: `Чат "${chatName}" добавлен как ${
@@ -77,6 +88,11 @@ export default function AddChatBlock() {
           }`,
           type: "success",
         });
+
+        // Show success popup
+        setShowSuccessPopup(true);
+
+        // Reset form
         setChatName("");
         setChatLink("");
         setIsPrivate(false);
@@ -220,7 +236,9 @@ export default function AddChatBlock() {
           {/* Examples */}
           <div className="bg-white rounded-xl shadow-sm overflow-hidden">
             <div className="p-4">
-              <h3 className="font-medium text-gray-900 mb-2">Примеры ссылок</h3>
+              <h3 className="font-medium text-gray-900 mb-2">
+                Пр��меры ссылок
+              </h3>
               <ul className="space-y-2 text-sm text-gray-600">
                 <li className="flex items-center">
                   <ExternalLink size={14} className="mr-2 text-gray-400" />
@@ -264,6 +282,13 @@ export default function AddChatBlock() {
           </motion.button>
         </form>
       </div>
+      <SuccessPopup
+        isOpen={showSuccessPopup}
+        onClose={handleCloseSuccessPopup}
+        title="Чат добавлен!"
+        message={`Чат "${successChatName}" успешно добавлен и готов к использованию.`}
+        autoCloseDelay={5000}
+      />
     </div>
   );
 }

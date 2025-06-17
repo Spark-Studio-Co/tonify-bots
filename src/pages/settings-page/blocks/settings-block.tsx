@@ -1,34 +1,35 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { User, Bell, Lock, Moon, HelpCircle, Info, LogOut, Trash2 } from "lucide-react"
-import { useNavigate } from "react-router-dom"
-import SettingsSection from "./settings-section"
-import SettingsItem from "./settings-item"
-import SettingsToggle from "./settings-toggle"
-import ThemeToggle from "@/entities/theme/ui/theme-toggle"
+import { useState } from "react";
+import {
+  User,
+  Bell,
+  Lock,
+  Moon,
+  HelpCircle,
+  Info,
+  LogOut,
+  Trash2,
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import SettingsSection from "./settings-section";
+import SettingsItem from "./settings-item";
+import SettingsToggle from "./settings-toggle";
+import ThemeToggle from "@/entities/theme/ui/theme-toggle";
 
 export default function SettingsBlock() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [notifications, setNotifications] = useState({
     newMessages: true,
     newOrders: true,
     promotions: true,
     updates: true,
-  })
-
-  const navigateToPersonalData = () => {
-    navigate("/settings/personal-data")
-  }
+  });
 
   return (
     <div className="min-h-screen pb-20 w-full">
       <div className="container mx-auto w-full">
-        <SettingsSection title="Аккаунт">
-          <SettingsItem icon={<User size={20} />} label="Личная информация" onClick={navigateToPersonalData} />
-        </SettingsSection>
-        {/* Notifications Section */}
         <SettingsSection title="Уведомления">
           <SettingsItem
             icon={<Bell size={20} />}
@@ -37,7 +38,9 @@ export default function SettingsBlock() {
             rightElement={
               <SettingsToggle
                 isOn={notifications.promotions}
-                onToggle={(value) => setNotifications({ ...notifications, promotions: value })}
+                onToggle={(value) =>
+                  setNotifications({ ...notifications, promotions: value })
+                }
                 activeColor="var(--color-secondary, #7bc394)"
               />
             }
@@ -98,5 +101,5 @@ export default function SettingsBlock() {
         </div>
       </div>
     </div>
-  )
+  );
 }

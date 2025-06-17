@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { Filter } from "lucide-react"
+import { Filter } from "lucide-react";
 
 interface FilterToggleProps {
-  onClick: () => void
-  activeFiltersCount: number
-  isActive?: boolean
-  className?: string
+  onClick: () => void;
+  activeFiltersCount: number;
+  isActive?: boolean;
+  className?: string;
 }
 
 export default function FilterToggle({
@@ -21,7 +21,10 @@ export default function FilterToggle({
       onClick={onClick}
       className={`flex items-center py-1.5 px-3 rounded-lg text-sm ${className}`}
       style={{
-        backgroundColor: activeFiltersCount > 0 || isActive ? "var(--color-main-light, #eff3fc)" : "transparent",
+        backgroundColor:
+          activeFiltersCount > 0 || isActive
+            ? "var(--color-main-light, #eff3fc)"
+            : "transparent",
         color: "var(--color-dark, #121826)",
       }}
     >
@@ -36,5 +39,5 @@ export default function FilterToggle({
         </span>
       )}
     </button>
-  )
+  );
 }

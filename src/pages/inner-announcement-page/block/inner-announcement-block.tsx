@@ -209,19 +209,8 @@ export const InnerAnnouncementBlock = () => {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={handleContact}
-                className="flex-1 py-2.5 px-4 rounded-lg text-white font-medium flex items-center justify-center"
-                style={{ backgroundColor: "var(--color-main, #627ffe)" }}
-              >
-                <MessageCircle size={18} className="mr-2" />
-                Связаться
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
                 onClick={handleShare}
-                className="py-2.5 px-4 rounded-lg border border-gray-200 text-gray-700 font-medium flex items-center justify-center"
+                className="py-2.5 px-4  rounded-lg border border-gray-200 text-gray-700 font-medium flex items-center justify-center"
               >
                 <Share2 size={18} className="mr-2" />
                 Поделиться

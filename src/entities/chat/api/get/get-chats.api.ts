@@ -1,15 +1,20 @@
-import { apiClient } from "@/shared/api/apiClient"
+import { apiClient } from "@/shared/api/apiClient";
 
 export interface Chat {
-  id: number
-  name: string
-  link: string
-  status: string
-  imageUrl: string
-  userId: number
+  id: number;
+  name: string;
+  link: string;
+  status: string;
+  imageUrl: string;
+  userId: number;
+  participants?: Array<{
+    userId: number;
+    telegramUsername: string;
+    name: string;
+  }>;
 }
 
 export const getChats = async (): Promise<Chat[]> => {
-  const response = await apiClient.get("/chats")
-  return response.data
-}
+  const response = await apiClient.get("/chats/my-chats");
+  return response.data;
+};

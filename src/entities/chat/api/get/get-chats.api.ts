@@ -15,6 +15,6 @@ export interface Chat {
 }
 
 export const getChats = async (): Promise<Chat[]> => {
-  const response = await apiClient.get("/chats/my-chats");
+  const response = await apiClient.get("/chats/chat/my-chats");
   return response.data;
 };

@@ -224,16 +224,6 @@ export const InnerAnnouncementBlock = () => {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={handleContact}
-                className="py-2.5 px-4 rounded-lg border border-gray-200 text-gray-700 font-medium flex items-center justify-center"
-              >
-                <MessageCircle size={18} className="mr-2" />
-                Связаться
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
                 onClick={handleShare}
                 className="py-2.5 px-4 rounded-lg border border-gray-200 text-gray-700 font-medium flex items-center justify-center"
               >
@@ -256,8 +246,6 @@ export const InnerAnnouncementBlock = () => {
             </div>
           </div>
         </div>
-
-        {/* Create Deal Modal */}
         {announcement && (
           <CreateDealModal
             isOpen={isCreateDealModalOpen}

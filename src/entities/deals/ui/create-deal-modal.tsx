@@ -198,14 +198,12 @@ export const CreateDealModal = ({
                         • Сделка будет отправлена владельцу выбранного чата
                       </li>
                       <li>• После одобрения объявление будет размещено</li>
-                      <li>• Комиссия платформы: 10%</li>
+                      <li>• Комиссия платформы: 2%</li>
                     </ul>
                   </div>
                 </div>
               </div>
             </div>
-
-            {/* Footer */}
             <div className="flex gap-3 p-4 border-t border-gray-100">
               <button
                 onClick={onClose}

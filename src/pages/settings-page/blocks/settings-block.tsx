@@ -56,8 +56,6 @@ export default function SettingsBlock() {
             divider={false}
           />
         </SettingsSection>
-
-        {/* Support Section */}
         <SettingsSection title="Поддержка">
           <SettingsItem
             icon={<HelpCircle size={20} />}
@@ -71,8 +69,6 @@ export default function SettingsBlock() {
             divider={false}
           />
         </SettingsSection>
-
-        {/* Account Actions */}
         <div className="mt-8 space-y-4">
           <button
             onClick={() => navigate("/")}
@@ -81,7 +77,6 @@ export default function SettingsBlock() {
             <LogOut size={18} className="mr-2" />
             Выйти из аккаунта
           </button>
-
           <button className="w-full py-3 px-4 rounded-xl flex items-center justify-center bg-red-400 text-white font-medium">
             <Trash2 size={18} className="mr-2" />
             Удалить аккаунт

@@ -12,9 +12,11 @@ import {
   Share2,
   MessageCircle,
   AlertCircle,
+  Handshake,
 } from "lucide-react";
 import { useToast } from "@/shared/layouts/toast-provider";
 import { useGetAnnouncement } from "@/entities/announcement/hooks/queries/use-get-announcement.query";
+import { CreateDealModal } from "@/entities/deals/ui/create-deal-modal";
 
 export const InnerAnnouncementBlock = () => {
   const { id } = useParams<{ id: string }>();
@@ -26,6 +28,7 @@ export const InnerAnnouncementBlock = () => {
   } = useGetAnnouncement(id || "");
   const { addToast } = useToast();
   const [isImageLoading, setIsImageLoading] = useState(true);
+  const [isCreateDealModalOpen, setIsCreateDealModalOpen] = useState(false);
 
   const handleShare = () => {
     if (navigator.share) {
@@ -47,6 +50,10 @@ export const InnerAnnouncementBlock = () => {
         });
       });
     }
+  };
+
+  const handleMakeDeal = () => {
+    setIsCreateDealModalOpen(true);
   };
 
   const handleContact = () => {
@@ -203,14 +210,32 @@ export const InnerAnnouncementBlock = () => {
                 </div>
               )}
             </div>
-
-            {/* Action Buttons */}
             <div className="flex space-x-2 pt-3 border-t border-gray-100">
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={handleMakeDeal}
+                className="flex-1 py-2.5 px-4 rounded-lg text-white font-medium flex items-center justify-center"
+                style={{ backgroundColor: "var(--color-main, #627ffe)" }}
+              >
+                <Handshake size={18} className="mr-2" />
+                Заключить сделку
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={handleContact}
+                className="py-2.5 px-4 rounded-lg border border-gray-200 text-gray-700 font-medium flex items-center justify-center"
+              >
+                <MessageCircle size={18} className="mr-2" />
+                Связаться
+              </motion.button>
+
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={handleShare}
-                className="py-2.5 px-4  rounded-lg border border-gray-200 text-gray-700 font-medium flex items-center justify-center"
+                className="py-2.5 px-4 rounded-lg border border-gray-200 text-gray-700 font-medium flex items-center justify-center"
               >
                 <Share2 size={18} className="mr-2" />
                 Поделиться
@@ -231,6 +256,17 @@ export const InnerAnnouncementBlock = () => {
             </div>
           </div>
         </div>
+
+        {/* Create Deal Modal */}
+        {announcement && (
+          <CreateDealModal
+            isOpen={isCreateDealModalOpen}
+            onClose={() => setIsCreateDealModalOpen(false)}
+            announcementId={announcement.id}
+            announcementTitle={announcement.title}
+            announcementPrice={announcement.price || 0}
+          />
+        )}
       </div>
     </div>
   );

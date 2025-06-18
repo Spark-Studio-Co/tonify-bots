@@ -2,6 +2,7 @@ import { apiClient } from "@/shared/api/apiClient";
 
 export interface Chat {
   id: number;
+  chatId: string;
   name: string;
   link: string;
   status: string;

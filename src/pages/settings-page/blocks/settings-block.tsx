@@ -47,18 +47,6 @@ export default function SettingsBlock() {
             divider={false}
           />
         </SettingsSection>
-
-        {/* Privacy Section */}
-        <SettingsSection title="Приватность">
-          <SettingsItem
-            icon={<Lock size={20} />}
-            label="Безопасность"
-            onClick={() => console.log("Navigate to security")}
-            divider={false}
-          />
-        </SettingsSection>
-
-        {/* Appearance Section */}
         <SettingsSection title="Внешний вид">
           <SettingsItem
             icon={<Moon size={20} />}
